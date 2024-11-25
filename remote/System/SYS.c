@@ -1,128 +1,55 @@
 #include "SYS.h"                  // Device header
 #include "Image.h" 
 
-
-
-//ÖĞ¶ÏÓÅÏÈ¼¶×é
-#define NVIC_PRIORITY_GROUP_3          3 /* Preemption: 4 bits / Subpriority: 0 bits                        */
-#define NVIC_PRIORITY_GROUP_4          4 /* Preemption: 3 bits / Subpriority: 1 bits                        */
-#define NVIC_PRIORITY_GROUP_5          5 /* Preemption: 2 bits / Subpriority: 2 bits                        */
-#define NVIC_PRIORITY_GROUP_6          6 /* Preemption: 1 bits / Subpriority: 3 bits                        */
-#define NVIC_PRIORITY_GROUP_7          7 /* Preemption: 0 bits / Subpriority: 4 bits                        */
-
-
-//ÎªËùÓĞÓÃµ½µÄÖĞ¶ÏÅäÖÃÇÀÕ¼ÓÅÏÈ¼¶ºÍÏìÓ¦ÓÅÏÈ¼¶
-//void NVIC_Config(void)
-//{
-
-//	
-//	//SysTick_IRQnÖĞ¶ÏÓÉÓÚÔÚÓĞĞ©ÖĞ¶Ïº¯ÊıÖĞÒ²»áÊ¹ÓÃµ½£¬ËùÒÔËüµÄÓÅÏÈ¼¶ÊÇ×î¸ßµÄ
-////	NVIC_SetPriority(SysTick_IRQn, NVIC_EncodePriority(NVIC_PRIORITY_GROUP_5, 0, 0)); 			//SysTick_IRQnÖĞ¶Ï
-//	NVIC_SetPriority(EXTI9_5_IRQn, NVIC_EncodePriority(NVIC_PRIORITY_GROUP_5, 1, 0));				//EXTI1_IRQnÖĞ¶Ï£¬SI24R1µÄIRQÒı½ÅÖĞ¶Ï
-//	NVIC_SetPriority(DMA1_Channel1_IRQn, NVIC_EncodePriority(NVIC_PRIORITY_GROUP_5, 1, 1));		//DMA1_Channel1_IRQnÖĞ¶Ï£¬DMA½«ADCÊı¾İ´«ÊäÍê³ÉÖĞ¶Ï
-////	NVIC_SetPriority(EXTI15_10_IRQn, NVIC_EncodePriority(NVIC_PRIORITY_GROUP_5, 2, 2));			//EXTI15_10_IRQnÖĞ¶Ï,°´¼ü´¥·¢ÖĞ¶Ï£¨ÓÅÏÈ¼¶±ØĞëĞ¡ÓÚEXTI1_IRQn·ñÔò»áµ¼ÖÂSI24R1lÁ¬½ÓÖĞ¶Ï£©
-//}
-
-
 void NVIC_init(void)
 {
-	 NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); // ÉèÖÃÖĞ¶ÏÓÅÏÈ¼¶·Ö×é  
+	 NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); // è®¾ç½®ä¸­æ–­ä¼˜å…ˆçº§åˆ†ç»„  
   
-    // Íâ²¿ÖĞ¶ÏÅäÖÃÎª×î¸ßÓÅÏÈ¼¶  
+    // å¤–éƒ¨ä¸­æ–­é…ç½®ä¸ºæœ€é«˜ä¼˜å…ˆçº§  
     NVIC_InitTypeDef NVIC_InitStructure;  
-    NVIC_InitStructure.NVIC_IRQChannel = EXTI9_5_IRQn; // ¼ÙÉèÍâ²¿ÖĞ¶ÏÊÇEXTI0  
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00; // ÇÀÕ¼ÓÅÏÈ¼¶ÉèÖÃÎª0£¨×î¸ß£©  
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x00; // ×ÓÓÅÏÈ¼¶ÈÎÒâÉèÖÃ  
-    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; // Ê¹ÄÜÖĞ¶Ï  
-    NVIC_Init(&NVIC_InitStructure); // ³õÊ¼»¯NVIC  
+    NVIC_InitStructure.NVIC_IRQChannel = EXTI9_5_IRQn; // å‡è®¾å¤–éƒ¨ä¸­æ–­æ˜¯EXTI0  
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00; // æŠ¢å ä¼˜å…ˆçº§è®¾ç½®ä¸º0ï¼ˆæœ€é«˜ï¼‰  
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x00; // å­ä¼˜å…ˆçº§ä»»æ„è®¾ç½®  
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; // ä½¿èƒ½ä¸­æ–­  
+    NVIC_Init(&NVIC_InitStructure); // åˆå§‹åŒ–NVIC  
   
-    // DMAÖĞ¶ÏÅäÖÃÎª´Î¸ßÓÅÏÈ¼¶  
-    NVIC_InitStructure.NVIC_IRQChannel = DMA1_Channel1_IRQn; // ¼ÙÉèDMAÖĞ¶ÏÊÇDMA1 Channel 1  
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x01; // ÇÀÕ¼ÓÅÏÈ¼¶ÉèÖÃÎª1£¨´Î¸ß£©  
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x01; // ×ÓÓÅÏÈ¼¶ÈÎÒâÉèÖÃ  
-    NVIC_Init(&NVIC_InitStructure); // ³õÊ¼»¯NVIC  
+    // DMAä¸­æ–­é…ç½®ä¸ºæ¬¡é«˜ä¼˜å…ˆçº§  
+    NVIC_InitStructure.NVIC_IRQChannel = DMA1_Channel1_IRQn; // å‡è®¾DMAä¸­æ–­æ˜¯DMA1 Channel 1  
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x01; // æŠ¢å ä¼˜å…ˆçº§è®¾ç½®ä¸º1ï¼ˆæ¬¡é«˜ï¼‰  
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x01; // å­ä¼˜å…ˆçº§ä»»æ„è®¾ç½®  
+    NVIC_Init(&NVIC_InitStructure); // åˆå§‹åŒ–NVIC  
   
-//    // ¶¨Ê±Æ÷ÖĞ¶ÏÅäÖÃÎª×îµÍÓÅÏÈ¼¶  
-    NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn; // ¼ÙÉè¶¨Ê±Æ÷ÖĞ¶ÏÊÇTIM2  
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x02; // ÇÀÕ¼ÓÅÏÈ¼¶ÉèÖÃÎª15£¨×îµÍ£©  
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x01; // ×ÓÓÅÏÈ¼¶ÈÎÒâÉèÖÃ  
-    NVIC_Init(&NVIC_InitStructure); // ³õÊ¼»¯NVIC  
+//    // å®šæ—¶å™¨ä¸­æ–­é…ç½®ä¸ºæœ€ä½ä¼˜å…ˆçº§  
+    NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn; // å‡è®¾å®šæ—¶å™¨ä¸­æ–­æ˜¯TIM2  
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x02; // æŠ¢å ä¼˜å…ˆçº§è®¾ç½®ä¸º15ï¼ˆæœ€ä½ï¼‰  
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x01; // å­ä¼˜å…ˆçº§ä»»æ„è®¾ç½®  
+    NVIC_Init(&NVIC_InitStructure); // åˆå§‹åŒ–NVIC  
 	
 	
-//    NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn; // ¼ÙÉè¶¨Ê±Æ÷ÖĞ¶ÏÊÇTIM2  
-//    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x01; // ÇÀÕ¼ÓÅÏÈ¼¶ÉèÖÃÎª15£¨×îµÍ£©  
-//    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x01; // ×ÓÓÅÏÈ¼¶ÈÎÒâÉèÖÃ  
-//    NVIC_Init(&NVIC_InitStructure); // ³õÊ¼»¯NVIC  
+//    NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn; // å‡è®¾å®šæ—¶å™¨ä¸­æ–­æ˜¯TIM2  
+//    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x01; // æŠ¢å ä¼˜å…ˆçº§è®¾ç½®ä¸º15ï¼ˆæœ€ä½ï¼‰  
+//    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x01; // å­ä¼˜å…ˆçº§ä»»æ„è®¾ç½®  
+//    NVIC_Init(&NVIC_InitStructure); // åˆå§‹åŒ–NVIC  
 	
 	
-	
-	
-
 }
 
 
+// void EXTI15_10_IRQHandler(void)
+// {
+
+// 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+// 	if (EXTI_GetITStatus(EXTI_Line12) != RESET)
+// 	{
+// 		printf("EXTI0_IRQHandler\r\n ");
+// 		/* ä½¿ç”¨å®šæ—¶å™¨æ¶ˆé™¤æŠ–åŠ¨ */
+// //		xTimerResetFromISR(xAutoReloadTimer1, &xHigherPriorityTaskWoken); /* Tcur + 2000 */
+// 		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+// 		EXTI_ClearITPendingBit(EXTI_Line12); // æ¸…é™¤ä¸­æ–­
+// 	}
+// }
 
 
-
-
-
-
-//void EXTI15_10_IRQHandler(void)
-//{
-
-//	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-//	if (EXTI_GetITStatus(EXTI_Line12) != RESET)
-//	{
-//		printf("EXTI0_IRQHandler\r\n ");
-//		/* Ê¹ÓÃ¶¨Ê±Æ÷Ïû³ı¶¶¶¯ */
-////		xTimerResetFromISR(xAutoReloadTimer1, &xHigherPriorityTaskWoken); /* Tcur + 2000 */
-//		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-//		EXTI_ClearITPendingBit(EXTI_Line12); // Çå³ıÖĞ¶Ï
-//	}
-//}
-void ShowStackSt(void)
-{
-	//		memset(pcWriteBuffer,0,400);				//ĞÅÏ¢»º³åÇøÇåÁã
-
-	//    vTaskList((char *)pcWriteBuffer);  //»ñÈ¡ÈÎÎñÔËĞĞÊ±¼äĞÅÏ¢
-
-	//   printf("---------------------------------------------\r\n");
-	//   printf("ÈÎÎñÃû      ÈÎÎñ×´Ì¬ ÓÅÏÈ¼¶   Ê£ÓàÕ» ÈÎÎñĞòºÅ\r\n");
-	//   printf("%s", pcWriteBuffer);
-	//   printf("---------------------------------------------\r\n");
-
-	//   memset(pcWriteBuffer,0,400);				//ĞÅÏ¢»º³åÇøÇåÁã
-
-	//   vTaskGetRunTimeStats((char *)pcWriteBuffer);
-
-	//   printf("ÈÎÎñÃû       ÔËĞĞ¼ÆÊı         Ê¹ÓÃÂÊ\r\n");
-	//   printf("%s", pcWriteBuffer);
-	//   printf("---------------------------------------------\r\n\n");
-	//
-}
-
-void MyStr(char *STR,char *Return) 
-{
-    char* start_ptr;
-    char* end_ptr;
-
-    // ²éÕÒ×Ó×Ö·û´®µÄÆğÊ¼Î»ÖÃ
-    start_ptr = strchr((char *)STR, '{');
-    if (start_ptr == NULL) {
-        printf("Find First Fail¡®{¡¯\r\n");
-    }
-    // ²éÕÒ×Ó×Ö·û´®µÄ½áÊøÎ»ÖÃ
-    end_ptr = strchr((char *)start_ptr + 1, '}');
-    if (end_ptr == NULL) {
-        printf("Find First Fail¡®}¡¯\r\n");
-    }
- 
-    // ¸´ÖÆ×Ó×Ö·û´®µ½ sub_str
-    strncpy((char *)Return, start_ptr, end_ptr - start_ptr + 1);
-    Return[end_ptr - start_ptr + 1] = '\0';
-    printf("Get String:%s\r\n", Return);
-
-}
 //void OpenShow(void)
 //{
 
@@ -131,9 +58,9 @@ void MyStr(char *STR,char *Return)
 //	for (uint8_t i = 0; i <= 100; i = i + 10)
 //	{
 //		Open_Show_Led();
-//		u8g2_SetFont(&u8g2, u8g2_font_6x10_tf); // ×ÖÌå
-//		u8g2_DrawBox(&u8g2, 0, 59, i, 4);	   // Ìî³ä¿òÊµĞÄ¾ØĞÎ¿ò
-//		u8g2_DrawFrame(&u8g2, 0,58, 128, 6); // ¿ÕĞÄ¾ØĞÎ¿ò
+//		u8g2_SetFont(&u8g2, u8g2_font_6x10_tf); // å­—ä½“
+//		u8g2_DrawBox(&u8g2, 0, 59, i, 4);	   // å¡«å……æ¡†å®å¿ƒçŸ©å½¢æ¡†
+//		u8g2_DrawFrame(&u8g2, 0,58, 128, 6); // ç©ºå¿ƒçŸ©å½¢æ¡†
 //		
 //		u8g2_DrawXBM(&u8g2,2,0,124,58,(const uint8_t *)gImage_Balance_Car_Img);
 
@@ -151,5 +78,3 @@ void MyStr(char *STR,char *Return)
 //	
 //	
 //}
-
-

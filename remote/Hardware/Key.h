@@ -3,35 +3,35 @@
 
 #include "stdbool.h"
 
+#define Button_GPIO 	GPIOB
 #define Button_1 	GPIO_Pin_12  
 #define Button_2 	GPIO_Pin_13
 #define Button_3 	GPIO_Pin_14  
 #define Button_4 	GPIO_Pin_15
 
-#define Button_GPIO 	GPIOB
+
+typedef enum{
+	Button_1_Single = 1,
+	Button_1_Long,
+	Button_2_Single,
+	Button_2_Long,
+	Button_3_Single,
+	Button_3_Long,
+	Button_4_Single,
+	Button_4_Long,
+}Button_Num;
 
 
-#define Button_1_Single 	 1
-#define Button_1_Long 	   2
-#define Button_2_Single 	 3
-#define Button_2_Long 	   4
-#define Button_3_Single 	 5
-#define Button_3_Long 	   6
-#define Button_4_Single 	 7
-#define Button_4_Long 	   8
-
-
-
-//#define KEY_DOUBLE 1 /*使用单击双击长按功能*/
-/*默认使用单击长按功能*/
+//#define KEY_DOUBLE 1 /*浣跨敤鍗曞嚮鍙屽嚮闀挎寜鍔熻兘*/
+/*榛樿浣跨敤鍗曞嚮闀挎寜鍔熻兘*/
 
 #ifdef KEY_DOUBLE 
 typedef struct{
 	uint8_t Key_Sta;
 	uint8_t Key_Judge;
-	bool    Key_Flag_1;//单击
-	bool    Key_Flag_2;//长按
-	bool    Key_Flag_3;//双击
+	bool    Key_Flag_1;//鍗曞嚮
+	bool    Key_Flag_2;//闀挎寜
+	bool    Key_Flag_3;//鍙屽嚮
    uint8_t Key_Time;
 
    uint8_t key_interval;
@@ -42,11 +42,12 @@ typedef struct{
 typedef struct{
 	uint8_t Key_Sta;
 	uint8_t Key_Judge;
-	bool    Key_Flag_1;//单击
-	bool    Key_Flag_2;//长按
-	bool    Key_Flag_3;//双击
+	bool    Key_Flag_1;//鍗曞嚮
+	bool    Key_Flag_2;//闀挎寜
+	bool    Key_Flag_3;//鍙屽嚮
 	uint8_t Key_Time;
 }KEY;
+
 
 #endif
 void Fly_UnLock(void);

@@ -6,10 +6,6 @@ void MAIN_UI(void)
 {
 		
 	u8g2_DrawUTF8(&u8g2, 40, 8, "XXCHONG");
-
-	
-	
-	
 	if(FLYDataRx_OK == 1)
 	{
 	
@@ -106,7 +102,7 @@ void Calibration_UI(void)
 {
 	uint16_t i=6;
 	u8g2Init(&u8g2);
-	u8g2_SetFont(&u8g2, u8g2_font_6x10_tf); // ×ÖÌå
+	u8g2_SetFont(&u8g2, u8g2_font_6x10_tf); // ï¿½ï¿½ï¿½ï¿½
 	u8g2_ClearBuffer(&u8g2);
 	char Text[50];
 	sprintf(Text,"Calibration");
@@ -125,7 +121,6 @@ void Calibration_UI(void)
 	sprintf(Text,"Calibration Finish");
 	u8g2_DrawUTF8(&u8g2, 0, 24, Text);
 	u8g2_SendBuffer(&u8g2);
-	
 
 }
 

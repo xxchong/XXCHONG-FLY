@@ -3,36 +3,34 @@
 
 KEY Keys[4]={0,0,0,0};
 bool FLYUNLOCK=0;
+
+
+
 void KEY_Init(void)
 {
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2,ENABLE);
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB ,ENABLE);
-	
 	NVIC_InitTypeDef NVIC_InitStructure;
 	GPIO_InitTypeDef GPIOA_InitTypeDef;
 	GPIO_InitTypeDef GPIOB_InitTypeDef;
 	TIM_TimeBaseInitTypeDef TIM2_TimeBaseInitTypeDef;
+
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2,ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB ,ENABLE);
 	
 	GPIOA_InitTypeDef.GPIO_Mode=GPIO_Mode_IPU;
 	GPIOA_InitTypeDef.GPIO_Pin=Button_1 | Button_2 | Button_3 |Button_4;
 	GPIOA_InitTypeDef.GPIO_Speed=GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA,&GPIOA_InitTypeDef);
-	TIM_InternalClockConfig(TIM2);
 
+	TIM_InternalClockConfig(TIM2);
 	TIM2_TimeBaseInitTypeDef.TIM_ClockDivision=TIM_CKD_DIV1;
 	TIM2_TimeBaseInitTypeDef.TIM_CounterMode=TIM_CounterMode_Up;
 	TIM2_TimeBaseInitTypeDef.TIM_Period=10000-1;
 	TIM2_TimeBaseInitTypeDef.TIM_Prescaler=72-1;
 	TIM_TimeBaseInit(TIM2, &TIM2_TimeBaseInitTypeDef);
-	
-
-	
 	TIM_ITConfig(TIM2,TIM_IT_Update,ENABLE);
 	TIM_Cmd(TIM2,ENABLE);
 	
 }
-
-
 
 
 #ifdef KEY_DOUBLE
@@ -40,7 +38,7 @@ void TIM2_IRQHandler(void)
 {
 	if(TIM_GetITStatus(TIM2,TIM_IT_Update) == SET)
 	{
-		TIM_ClearITPendingBit(TIM2,TIM_IT_Update);  // Çå³şÖĞ¶Ï±êÖ¾Î»
+		TIM_ClearITPendingBit(TIM2,TIM_IT_Update);  // æ¸…æ¥šä¸­æ–­æ ‡å¿—ä½
 		Keys[0].Key_Sta=GPIO_ReadInputDataBit(Button_GPIO,Button_1);
 		Keys[1].Key_Sta=GPIO_ReadInputDataBit(Button_GPIO,Button_2);
 		Keys[2].Key_Sta=GPIO_ReadInputDataBit(Button_GPIO,Button_3);
@@ -49,7 +47,7 @@ void TIM2_IRQHandler(void)
 		{
 			switch(Keys[i].Key_Judge){
 				case 0: 
-					{   /*µÚÒ»´Î°´ÏÂ°´¼ü*/
+					{   /*ç¬¬ä¸€æ¬¡æŒ‰ä¸‹æŒ‰é”®*/
 						if(Keys[i].Key_Sta == 0)
 						{
 							Keys[i].Key_Judge=1;
@@ -60,7 +58,7 @@ void TIM2_IRQHandler(void)
 				break;
 					 
 			    case 1:
-					{   /*10msºó°´¼ü£¨Ïû¶¶£©*/
+					{   /*10msåæŒ‰é”®ï¼ˆæ¶ˆæŠ–ï¼‰*/
 						if(Keys[i].Key_Sta == 0)
 						{
 							Keys[i].Key_Judge=2;
@@ -73,13 +71,13 @@ void TIM2_IRQHandler(void)
 				break;
 					 
 			   case 2:
-				     {    /*µÈ´ıËÉ¿ª*/
+				     {    /*ç­‰å¾…æ¾å¼€*/
 						 if(Keys[i].Key_Sta == 1 && Keys[i].Key_Time < 70)
 						{
 							
 						  if(Keys[i].key_twiceEn==0)
                            {
-                               Keys[i].key_twiceEn = 1;/*Ë«»÷µÄµÚÒ»´Î°´ÏÂ*/
+                               Keys[i].key_twiceEn = 1;/*åŒå‡»çš„ç¬¬ä¸€æ¬¡æŒ‰ä¸‹*/
                                Keys[i].key_interval = 0;
                            }
                            else
@@ -102,7 +100,7 @@ void TIM2_IRQHandler(void)
 					 }
 				break;
 			}
-			if(Keys[i].key_twiceEn == 1)/*Ë«»÷µÄµÚÒ»´Î°´ÏÂ*/
+			if(Keys[i].key_twiceEn == 1)/*åŒå‡»çš„ç¬¬ä¸€æ¬¡æŒ‰ä¸‹*/
             {
                 Keys[i].key_interval ++;
                 if(Keys[i].key_interval >= 20)
@@ -120,7 +118,7 @@ void TIM2_IRQHandler(void)
 {
 	if(TIM_GetITStatus(TIM2,TIM_IT_Update) == SET)
 	{
-		TIM_ClearITPendingBit(TIM2,TIM_IT_Update);  // Çå³şÖĞ¶Ï±êÖ¾Î»
+		TIM_ClearITPendingBit(TIM2,TIM_IT_Update);  // æ¸…æ¥šä¸­æ–­æ ‡å¿—ä½
 		Keys[0].Key_Sta=GPIO_ReadInputDataBit(Button_GPIO,Button_1);
 		Keys[1].Key_Sta=GPIO_ReadInputDataBit(Button_GPIO,Button_2);
 		Keys[2].Key_Sta=GPIO_ReadInputDataBit(Button_GPIO,Button_3);
@@ -130,34 +128,31 @@ void TIM2_IRQHandler(void)
 		{
 			switch(Keys[i].Key_Judge){
 				case 0: 
-					{   /*µÚÒ»´Î°´ÏÂ°´¼ü*/
+					{   /*ç¬¬ä¸€æ¬¡æŒ‰ä¸‹æŒ‰é”®*/
 						if(Keys[i].Key_Sta == 0)
 						{
 							Keys[i].Key_Judge=1;
 							Keys[i].Key_Time=0;
 						}
-					
 					 }
 				break;
 					 
 			    case 1:
-					{   /*10msºó°´¼ü£¨Ïû¶¶£©*/
+					{   /*10msåæŒ‰é”®ï¼ˆæ¶ˆæŠ–ï¼‰*/
 						if(Keys[i].Key_Sta == 0)
 						{
 							Keys[i].Key_Judge=2;
 						}
 						else {
 							Keys[i].Key_Judge=0;
-						
 						}
 					 }
 				break;
 					 
 			   case 2:
-				     {    /*µÈ´ıËÉ¿ª*/
+				     {    /*ç­‰å¾…æ¾å¼€*/
 						 if(Keys[i].Key_Sta == 1 && Keys[i].Key_Time < 70)
 						{
-							
 							Keys[i].Key_Flag_1=1;
 							Keys[i].Key_Judge=0;
 							
@@ -165,16 +160,13 @@ void TIM2_IRQHandler(void)
 						{
 								Keys[i].Key_Flag_2=1;
 								Keys[i].Key_Judge=0;
-
 						}else
 						{
 							Keys[i].Key_Time++;
 						}
-					
 					 }
 				break;
 			}
-			
 		}	
 	}
 }
@@ -183,15 +175,13 @@ void TIM2_IRQHandler(void)
 
 
 
-/*·É»ú½âËø*/
+/*é£æœºè§£é”*/
 void Fly_UnLock(void)
 {
-	
 	if( Keys[2].Key_Flag_1 == 1  )
 	{
-		if((4096 - ADC_ConvertedValue[1])  < 6)/*ÓÍÃÅ×îµÍÊ±·½¿É½âËø»òÉÏËø*/
+		if((4096 - ADC_ConvertedValue[1])  < 6)/*æ²¹é—¨æœ€ä½æ—¶æ–¹å¯è§£é”æˆ–ä¸Šé”*/
 		{
-		
 			FLYUNLOCK=!FLYUNLOCK;
 		}	
 		Keys[2].Key_Flag_1 = 0;
@@ -205,76 +195,27 @@ void Fly_UnLock(void)
 		Keys[0].Key_Flag_1 = 0;
 	
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 }
 
-
 uint8_t Key_Scan(void)
 {
-	uint8_t KeyNum;
-	if(Keys[0].Key_Flag_1 == 1 )
-	{
-		Keys[0].Key_Flag_1 = 0;
-		KeyNum=Button_1_Single;
-		return KeyNum;
-	}
-	
-	if(Keys[0].Key_Flag_2 == 1)
-	{
-		Keys[0].Key_Flag_2 = 0;
-		KeyNum=Button_1_Long;
-		return KeyNum;
-	}
-	if(Keys[1].Key_Flag_1 == 1)
-	{
-		Keys[1].Key_Flag_1 = 0;
-		KeyNum=Button_2_Single;
-		return KeyNum;
-	}
-	if(Keys[1].Key_Flag_2 == 1)
-	{
-		Keys[1].Key_Flag_2 = 0;
-		KeyNum=Button_2_Long;
-		return KeyNum;
-		
-	}
-	if(Keys[2].Key_Flag_1 == 1)
-	{
-		Keys[2].Key_Flag_1 = 0;
-		KeyNum=Button_3_Single;
-		return KeyNum;
-	}
-	
-	if(Keys[2].Key_Flag_2 == 1)
-	{
-		Keys[2].Key_Flag_2 = 0;
-		KeyNum=Button_3_Long;
-		return KeyNum;
-	}
-	if(Keys[3].Key_Flag_1 == 1)
-	{
-		Keys[3].Key_Flag_1 = 0;
-		KeyNum=Button_4_Single;
-		return KeyNum;
-	}
-	if(Keys[3].Key_Flag_2 == 1)
-	{
-		Keys[3].Key_Flag_2 = 0;
-		KeyNum=Button_4_Long;
-		return KeyNum;
-		
-	}
+    uint8_t KeyNum = 0;
+    uint8_t Button_Single[] = {Button_1_Single, Button_2_Single, Button_3_Single, Button_4_Single};
+    uint8_t Button_Long[] = {Button_1_Long, Button_2_Long, Button_3_Long, Button_4_Long};
 
-	return 0;
+    for (int i = 0; i < 4; i++) {
+        if (Keys[i].Key_Flag_1 == 1) {
+            Keys[i].Key_Flag_1 = 0;
+            KeyNum = Button_Single[i];
+            break;
+        }
+        if (Keys[i].Key_Flag_2 == 1) {
+            Keys[i].Key_Flag_2 = 0;
+            KeyNum = Button_Long[i];
+            break;
+        }
+    }
+
+    return KeyNum;
 }

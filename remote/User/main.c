@@ -1,7 +1,4 @@
 #include "SYS.h"
-#include "cJSON.h" //解析天气
-#include "semphr.h" 
-
 
 TaskHandle_t AppTaskCreate_Handle;
 TaskHandle_t Task1_Handler;
@@ -13,23 +10,14 @@ SemaphoreHandle_t xBinarySemaphore;
 QueueHandle_t Queue1;
 
 u8g2_t u8g2;
-
-
-
 TimerHandle_t xAutoReloadTimer1;
 TimerHandle_t xAutoReloadTimer2;
-
-
 char LeftX[20];
 char RightY[20];
 char RightX[20];
 char LeftY[20];
 
-#define STOP  	 0x00
-#define Forward  0x01
-#define Backward 0x02
-#define Left  	 0x03
-#define Right  	 0x04
+
 
 
 extern u8 packetData[12];

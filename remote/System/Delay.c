@@ -1,16 +1,5 @@
 #include "SYS.h"
 
-
-
-
-//使用此版函数需在FreeRTOS.h中加入
-
-//#ifndef INCLUDE_xTaskGetSchedulerState
-//    #define INCLUDE_xTaskGetSchedulerState    1
-//#endif
-
-
-
 extern void xPortSysTickHandler(void);
 u32 fac_us,fac_ms;
 //systick中断服务函数,使用os时用到
@@ -26,7 +15,7 @@ void SysTick_Handler(void)
 //SYSTICK 的时钟固定为 AHB 时钟，基础例程里面 SYSTICK 时钟频率为 AHB/8
 //这里为了兼容 FreeRTOS，所以将 SYSTICK 的时钟频率改为 AHB 的频率！
 //SYSCLK:系统时钟频率
-void Delay_init()
+void Delay_init(void)
 {
     u32 reload;
     SysTick_CLKSourceConfig(SysTick_CLKSource_HCLK);//选择外部时钟 HCLK

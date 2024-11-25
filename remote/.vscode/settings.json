@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "sys.h": "c",
+        "u8g2_font_mychinese.h": "c",
+        "stm32f10x.h": "c"
+    }
+}

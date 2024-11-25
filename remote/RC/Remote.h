@@ -1,24 +1,14 @@
 #ifndef __REMOTE_H
 #define __REMOTE_H
 #include "stdbool.h"
-//½ÓÊÕ·É»ú·¢ËÍ¹ıÀ´µÄÊıÖµ
-
-
-
+//æ¥æ”¶é£æœºå‘é€è¿‡æ¥çš„æ•°å€¼
 typedef struct
 {
-	u16 Thr;   	/*ÓÍÃÅ*/
-	s16 Yaw;	/*º½Ïò½Ç*/
-	s16 Rol;	/*ºá¹ö½Ç*/
-	s16 Pit;	/*¸©Ñö½Ç*/
-	float BattV;	/*·É»úµçÁ¿*/
-	bool Lock;	/*·É»úËø*/
+	u16 Thr;   	/*æ²¹é—¨*/
+	s16 Yaw;	/*èˆªå‘è§’*/
+	s16 Rol;	/*æ¨ªæ»šè§’*/
+	s16 Pit;	/*ä¿¯ä»°è§’*/
+	float BattV;	/*é£æœºç”µé‡*/
+	bool Lock;	/*é£æœºé”*/
 }FLY_TYPE;
-
-
-
-
-
-
-
 #endif

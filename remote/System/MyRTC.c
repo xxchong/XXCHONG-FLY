@@ -1,6 +1,4 @@
-#include "stm32f10x.h"                  // Device header
-#include <time.h>
-#include "WIFI.h"
+#include "SYS.h"
 
 uint16_t MyRTC_Time[6];
 
@@ -28,16 +26,10 @@ void MyRTC_Init(void)
 	if(BKP_ReadBackupRegister(BKP_DR1)!= 0xA5A5)
 	{
 		RCC_LSEConfig(RCC_LSE_ON);
-	
-
-		
 		while(RCC_GetFlagStatus(RCC_FLAG_LSERDY) == RESET);//等待LSE启动
-		
 		//选择RTC时钟源
 		RCC_RTCCLKConfig(RCC_RTCCLKSource_LSE);
-
 		RCC_RTCCLKCmd(ENABLE);
-		
 		//等待同步
 		RTC_WaitForSynchro();
 		//等待上一次写入操作完成
@@ -49,7 +41,6 @@ void MyRTC_Init(void)
 		//设置初始化时间
 		RTC_SetCounter(0);
 		RTC_WaitForLastTask();
-		
 		BKP_WriteBackupRegister(BKP_DR1,0xA5A5);
 
 	}else

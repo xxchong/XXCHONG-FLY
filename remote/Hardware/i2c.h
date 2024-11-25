@@ -1,42 +1,45 @@
 #ifndef __I2C_H
 #define __I2C_H
+#include "u8x8.h"
 #include "u8g2.h"
 
-
+#define SCL_Pin GPIO_Pin_8
+#define SDA_Pin GPIO_Pin_9
+#define IIC_GPIO_Port GPIOB
 
 #define      OLED_SPIx                        SPI1
 #define      OLED_SPI_APBxClock_FUN          RCC_APB2PeriphClockCmd
 #define      OLED_SPI_CLK                     RCC_APB2Periph_SPI1
  
-//SCKÒı½Å
+//SCKå¼•è„š
 #define      OLED_SPI_SCK_APBxClock_FUN      RCC_APB2PeriphClockCmd
 #define      OLED_SPI_SCK_CLK                 RCC_APB2Periph_GPIOA   
 #define      OLED_SPI_SCK_PORT                GPIOA   
 #define      OLED_SPI_SCK_PIN                 GPIO_Pin_5
-//MISOÒı½Å
+//MISOå¼•è„š
 #define      OLED_SPI_MISO_APBxClock_FUN     RCC_APB2PeriphClockCmd
 #define      OLED_SPI_MISO_CLK                RCC_APB2Periph_GPIOA    
 #define      OLED_SPI_MISO_PORT               GPIOA 
 #define      OLED_SPI_MISO_PIN                GPIO_Pin_6
-//MOSIÒı½Å
+//MOSIå¼•è„š
 #define      OLED_SPI_MOSI_APBxClock_FUN     RCC_APB2PeriphClockCmd
 #define      OLED_SPI_MOSI_CLK                RCC_APB2Periph_GPIOA    
 #define      OLED_SPI_MOSI_PORT               GPIOA 
 #define      OLED_SPI_MOSI_PIN                GPIO_Pin_7
  
-//CS(NSS)Òı½Å Æ¬Ñ¡Ñ¡ÆÕÍ¨GPIO¼´¿É//¿ÉÒÔÀ­µÍ£¬»òÕßĞü¿Õ
+//CS(NSS)å¼•è„š ç‰‡é€‰é€‰æ™®é€šGPIOå³å¯//å¯ä»¥æ‹‰ä½ï¼Œæˆ–è€…æ‚¬ç©º
 #define      OLED_SPI_CS_APBxClock_FUN       RCC_APB2PeriphClockCmd
 #define      OLED_SPI_CS_CLK                  RCC_APB2Periph_GPIOA  
 #define      OLED_SPI_CS_PORT                 GPIOA
 #define      OLED_SPI_CS_PIN                  GPIO_Pin_4
  
-//RESÒı½Å Æ¬Ñ¡Ñ¡ÆÕÍ¨GPIO¼´¿É//¿ÉÒÔ½Óµ½ÏµÍ³¸´Î»Òı½Å»òÕß¸ßµçÆ½
+//RESå¼•è„š ç‰‡é€‰é€‰æ™®é€šGPIOå³å¯//å¯ä»¥æ¥åˆ°ç³»ç»Ÿå¤ä½å¼•è„šæˆ–è€…é«˜ç”µå¹³
 #define      OLED_SPI_RES_APBxClock_FUN       RCC_APB2PeriphClockCmd
 #define      OLED_SPI_RES_CLK                  RCC_APB2Periph_GPIOB  
 #define      OLED_SPI_RES_PORT                 GPIOB
 #define      OLED_SPI_RES_PIN                  GPIO_Pin_0
  
-//DCÒı½Å Æ¬Ñ¡Ñ¡ÆÕÍ¨GPIO¼´¿É
+//DCå¼•è„š ç‰‡é€‰é€‰æ™®é€šGPIOå³å¯
 #define      OLED_SPI_DC_APBxClock_FUN       RCC_APB2PeriphClockCmd
 #define      OLED_SPI_DC_CLK                  RCC_APB2Periph_GPIOB  
 #define      OLED_SPI_DC_PORT                 GPIOB
@@ -52,10 +55,8 @@
 #define         OLED_DC_Set()                           GPIO_SetBits(OLED_SPI_DC_PORT, OLED_SPI_DC_PIN)
  
  
-//void U8g2_Init(void);
  
 void U8g2_Init(u8g2_t *u8g2);
-
 void IIC_Init(void);
 uint8_t u8x8_gpio_and_delay(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 void u8g2Init(u8g2_t *u8g2);

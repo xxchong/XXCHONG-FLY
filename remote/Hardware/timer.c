@@ -1,38 +1,33 @@
-#include "timer.h"
-#include "stm32f10x_tim.h"
+#include "SYS.h"
 
-//Ò»¶ÎÊ±¼ä´¥·¢´¥·¢Ò»´ÎADC×ªÔË
+//ä¸€æ®µæ—¶é—´è§¦å‘è§¦å‘ä¸€æ¬¡ADCè½¬è¿
 void TIM_OCTigrConfig(void)
 {
 	TIM_TimeBaseInitTypeDef TIM_timeBaseStucture;
 	TIM_OCInitTypeDef TIM_ocInitStructure;
 	
-	u16 period 	= 10000-1;										//ÉèÖÃÖÜÆÚÖµ100ms·¢ËÍÒ»´Î
-	u16 pluse 	= 5000;											//ÉèÖÃCRRÖµ£¬ÕâÀïµÄÖµ¿ÉÒÔËæ±ãÉèÖÃ£¬²»Ó°ÏìADC²ÉÑùÖÜÆÚ£¬µ«Òª±£Ö¤ÔÚÕıÈ·µÄ·¶Î§ÄÚ
+	u16 period 	= 10000-1;										//è®¾ç½®å‘¨æœŸå€¼100mså‘é€ä¸€æ¬¡
+	u16 pluse 	= 5000;											//è®¾ç½®CRRå€¼ï¼Œè¿™é‡Œçš„å€¼å¯ä»¥éšä¾¿è®¾ç½®ï¼Œä¸å½±å“ADCé‡‡æ ·å‘¨æœŸï¼Œä½†è¦ä¿è¯åœ¨æ­£ç¡®çš„èŒƒå›´å†…
 	
-	//Ê¹ÄÜTIM4µÄÊ±ÖÓ£¬TIM4ÊÇ¹ÒÔÚAPB1×ÜÏßÉÏµÄ£¬×¢ÒâTIM4µÄÊ±ÖÓÊÇ72MµÄ
+	//ä½¿èƒ½TIM4çš„æ—¶é’Ÿï¼ŒTIM4æ˜¯æŒ‚åœ¨APB1æ€»çº¿ä¸Šçš„ï¼Œæ³¨æ„TIM4çš„æ—¶é’Ÿæ˜¯72Mçš„
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4,ENABLE);
 	
-	TIM_timeBaseStucture.TIM_ClockDivision = TIM_CKD_DIV1;      	//·ÖÆµÒò×Ó£¬Êä³ö¸ø¶¨Ê±Æ÷µÄETRPÊı×ÖÂË²¨Æ÷Ìá¹©Ê±ÖÓ
-	TIM_timeBaseStucture.TIM_Prescaler = 720-1;                		//Ô¤·ÖÆµ£¬¸øTIMx_CNTÇı¶¯µÄÊ±ÖÓ120
-	TIM_timeBaseStucture.TIM_CounterMode = TIM_CounterMode_Up;		//ÏòÉÏ¼ÆÊı
-	TIM_timeBaseStucture.TIM_Period = period;						//ÉèÖÃÖÜÆÚ£¬¸øARR¸³Öµ
+	TIM_timeBaseStucture.TIM_ClockDivision = TIM_CKD_DIV1;      	//åˆ†é¢‘å› å­ï¼Œè¾“å‡ºç»™å®šæ—¶å™¨çš„ETRPæ•°å­—æ»¤æ³¢å™¨æä¾›æ—¶é’Ÿ
+	TIM_timeBaseStucture.TIM_Prescaler = 720-1;                		//é¢„åˆ†é¢‘ï¼Œç»™TIMx_CNTé©±åŠ¨çš„æ—¶é’Ÿ120
+	TIM_timeBaseStucture.TIM_CounterMode = TIM_CounterMode_Up;		//å‘ä¸Šè®¡æ•°
+	TIM_timeBaseStucture.TIM_Period = period;						//è®¾ç½®å‘¨æœŸï¼Œç»™ARRèµ‹å€¼
 	TIM_TimeBaseInit(TIM4,&TIM_timeBaseStucture);
 	
-	//ÅäÖÃTIM4Í¨µÀ4µÄÊä³ö±È½Ï
-	TIM_ocInitStructure.TIM_OCMode = TIM_OCMode_PWM1;				//PWMÊä³öÄ£Ê½ÎªPWM1
-	TIM_ocInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;		//ÉèÖÃÓĞĞ§µçÆ½µÄ¼«ĞÔ
-	TIM_ocInitStructure.TIM_OutputState = TIM_OutputState_Enable;	//Ê¹ÄÜÍ¨µÀÊä³ö
-	TIM_ocInitStructure.TIM_Pulse = pluse;							//ÉèÖÃPWMµÄÂö³å¿í¶ÈÖµ£¬¼´CRRÖµ
+	//é…ç½®TIM4é€šé“4çš„è¾“å‡ºæ¯”è¾ƒ
+	TIM_ocInitStructure.TIM_OCMode = TIM_OCMode_PWM1;				//PWMè¾“å‡ºæ¨¡å¼ä¸ºPWM1
+	TIM_ocInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;		//è®¾ç½®æœ‰æ•ˆç”µå¹³çš„ææ€§
+	TIM_ocInitStructure.TIM_OutputState = TIM_OutputState_Enable;	//ä½¿èƒ½é€šé“è¾“å‡º
+	TIM_ocInitStructure.TIM_Pulse = pluse;							//è®¾ç½®PWMçš„è„‰å†²å®½åº¦å€¼ï¼Œå³CRRå€¼
 	TIM_OC4Init(TIM4,&TIM_ocInitStructure);
 	
-	TIM_ARRPreloadConfig(TIM4,ENABLE);								//Ê¹ÄÜTIM4µÄ¼Ä´æÆ÷ARRµÄÔ¤×°ÔØ¹¦ÄÜ£¬DISABLEÊ±½«»áÊ¹¸Ä±äARRÖµÊ±Á¢¼´ÉúĞ§
-	TIM_OC4PreloadConfig(TIM4,TIM_OCPreload_Enable);				//Ê¹ÄÜTIM4Í¨µÀ1µÄCCRµÄÔ¤×°ÔØ¹¦ÄÜ£¬DISABLEÊ±½«»áÊ¹¸Ä±äCRRÖµÊ±Á¢¼´ÉúĞ§
+	TIM_ARRPreloadConfig(TIM4,ENABLE);								//ä½¿èƒ½TIM4çš„å¯„å­˜å™¨ARRçš„é¢„è£…è½½åŠŸèƒ½ï¼ŒDISABLEæ—¶å°†ä¼šä½¿æ”¹å˜ARRå€¼æ—¶ç«‹å³ç”Ÿæ•ˆ
+	TIM_OC4PreloadConfig(TIM4,TIM_OCPreload_Enable);				//ä½¿èƒ½TIM4é€šé“1çš„CCRçš„é¢„è£…è½½åŠŸèƒ½ï¼ŒDISABLEæ—¶å°†ä¼šä½¿æ”¹å˜CRRå€¼æ—¶ç«‹å³ç”Ÿæ•ˆ
 	
-	//Ê¹ÄÜTIM4¶¨Ê±Æ÷
+	//ä½¿èƒ½TIM4å®šæ—¶å™¨
 	TIM_Cmd(TIM4,ENABLE);
 }
-
-
-
-

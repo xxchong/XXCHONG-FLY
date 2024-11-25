@@ -1,14 +1,11 @@
-#include "stm32f10x.h"                  // Device header
-#include "MySPI.h"                  // Device header
+#include "SYS.h"               
 
 void MySPI_W_CE(uint8_t BitValue) 
 {
-	
 	GPIO_WriteBit(GPIOA,NFR_CE,(BitAction)BitValue);
 }
 void MySPI_W_IRQ(uint8_t BitValue) 
 {
-	
 	GPIO_WriteBit(GPIOA,NFR_IRQ,(BitAction)BitValue);
 }
 
@@ -17,33 +14,26 @@ uint8_t MySPI_R_IRQ(void)
 	uint8_t BitValue;
 	BitValue=GPIO_ReadInputDataBit(GPIOA,NFR_IRQ);
 	return BitValue;
-
 }
 void MySPI_W_CSN(uint8_t BitValue) 
 {
-	
 	GPIO_WriteBit(GPIOB,NFR_CSN,(BitAction)BitValue);
-	
 }
 
 void MySPI_W_MOSI(uint8_t BitValue) 
 {
-	
 	GPIO_WriteBit(GPIOA,MOSI,(BitAction)BitValue);
 }
 
 void MySPI_W_SCK(uint8_t BitValue) 
 {
-	
 	GPIO_WriteBit(GPIOB,SCK,(BitAction)BitValue);
-	
 }
 uint8_t MySPI_R_MISO(void) 
 {
 	uint8_t BitValue;
 	BitValue=GPIO_ReadInputDataBit(GPIOA,MISO);
 	return BitValue;
-
 }
 
 void MySPI_Init(void)
@@ -69,9 +59,6 @@ void MySPI_Init(void)
 	GPIOB_InitStruct.GPIO_Speed=GPIO_Speed_50MHz;
 	GPIO_Init(GPIOB,&GPIOB_InitStruct);
 	
-	
-
-	
 	GPIO_EXTILineConfig(GPIO_PortSourceGPIOA,GPIO_PinSource5);//开启GPIO管脚的中断线路
 	EXTI_initStructure.EXTI_Line = EXTI_Line5;
 	EXTI_initStructure.EXTI_LineCmd = ENABLE;
@@ -79,9 +66,6 @@ void MySPI_Init(void)
 	EXTI_initStructure.EXTI_Trigger = EXTI_Trigger_Falling;	//下降沿触发
 	EXTI_Init(&EXTI_initStructure);
 	NVIC_EnableIRQ(EXTI9_5_IRQn);
-	
-	
-	
 }
 	
 void MySPI_Start(void)
@@ -181,7 +165,6 @@ u8 SPI_Read_Buf(u8 reg, u8 *pBuf, u8 bytes)
   for(byte_ctr=0;byte_ctr<bytes;byte_ctr++)
     pBuf[byte_ctr] = MySPI_SwapByte(0);                   //读取数据，低字节在前
   MySPI_Stop();                                        
-
   return(status);    
 }
 

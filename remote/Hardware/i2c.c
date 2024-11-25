@@ -1,14 +1,4 @@
-#include "stm32f10x.h"                  // Device header
-#include "u8x8.h"
-#include "u8g2.h"
-#include "Delay.h"
-#include "i2c.h"
-
-
-#define SCL_Pin GPIO_Pin_8
-#define SDA_Pin GPIO_Pin_9
-#define IIC_GPIO_Port GPIOB
-
+#include "SYS.h"            
 
 void IIC_Init(void)
 {					     

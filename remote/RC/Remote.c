@@ -1,10 +1,7 @@
 #include "SYS.h"                 
 
 FLY_TYPE  FLY;
-
-
-
-//½ÓÊÕ·ÖÎö·É»ú·¢ËÍ¹ıÀ´µÄÊıÖµ
+//æ¥æ”¶åˆ†æé£æœºå‘é€è¿‡æ¥çš„æ•°å€¼
 //void ReceiveDataAnalysis(void)
 //{
 //	if(RxBuf[0]==0xFF && RxBuf[11]==0xFF )
@@ -31,7 +28,7 @@ FLY_TYPE  FLY;
 //	ADC_Value[0] = 1500 + ((1000+ADC_ConvertedValue[0]*1000/4096) - ADC_Calibrator[0]);
 //	ADC_Value[0] = ADC_ValueLimit(ADC_Value[0],1470,1530,1100,1900);
 
-//	ADC_Value[1] = (ADC_ConvertedValue[1]*1000/4096); //ÓÍÃÅ0~1000;
+//	ADC_Value[1] = (ADC_ConvertedValue[1]*1000/4096); //æ²¹é—¨0~1000;
 //	
 //	ADC_Value[2] = 1500 + ((1000+(ADC_ConvertedValue[2])*1000/4096) - ADC_Calibrator[2] );
 //	ADC_Value[2] = ADC_ValueLimit(ADC_Value[2],1470,1530,1100,1900);
@@ -53,31 +50,31 @@ FLY_TYPE  FLY;
 ////	printf("==================================\r\n");
 //	
 //	
-//	//Êı¾İ°üÊ¶±ğPID×ÔÔö£¬²¢ÇÒ³¬¹ı200Ê±×Ô¶¯¹éÁã
+//	//æ•°æ®åŒ…è¯†åˆ«PIDè‡ªå¢ï¼Œå¹¶ä¸”è¶…è¿‡200æ—¶è‡ªåŠ¨å½’é›¶
 //	if(dataPID>=200){
 //		dataPID = 0;
 //	}else{
 //		dataPID++;
 //	}
 //	
-////=========Ö±½Ó²ÉÓÃÖ¸Õë²Ù×÷ÄÚ´æÖĞµÄÊıÖµ½«16Î»×ª³É8Î»£¬ËÙ¶È¿ì£¬²¢ÇÒ²»»á·¢Éú¾«¶È½ØÈ¡µÄÏÖÏó£¬»¹Òª×¢Òâ£¬STM32ÊÇĞ¡¶ËµØÖ·============
-//	packetData[0] = firstByte;					  //Ç°µ¼Âë
-//	packetData[1] = ButtonMask;                   //°´¼ü
-//	packetData[2] = *(((u8*)ADC_Value)+0);        //YAW½Ç
+////=========ç›´æ¥é‡‡ç”¨æŒ‡é’ˆæ“ä½œå†…å­˜ä¸­çš„æ•°å€¼å°†16ä½è½¬æˆ8ä½ï¼Œé€Ÿåº¦å¿«ï¼Œå¹¶ä¸”ä¸ä¼šå‘ç”Ÿç²¾åº¦æˆªå–çš„ç°è±¡ï¼Œè¿˜è¦æ³¨æ„ï¼ŒSTM32æ˜¯å°ç«¯åœ°å€============
+//	packetData[0] = firstByte;					  //å‰å¯¼ç 
+//	packetData[1] = ButtonMask;                   //æŒ‰é”®
+//	packetData[2] = *(((u8*)ADC_Value)+0);        //YAWè§’
 //	packetData[3] = *(((u8*)ADC_Value)+1);
-//	packetData[4] = *(((u8*)ADC_Value)+2);		  //ÓÍÃÅÊı¾İ´ò°ü
+//	packetData[4] = *(((u8*)ADC_Value)+2);		  //æ²¹é—¨æ•°æ®æ‰“åŒ…
 //	packetData[5] = *(((u8*)ADC_Value)+3);
-//	packetData[6] = *(((u8*)ADC_Value)+4);        //ROLL½Ç
+//	packetData[6] = *(((u8*)ADC_Value)+4);        //ROLLè§’
 //	packetData[7] = *(((u8*)ADC_Value)+5);
-//	packetData[8] = *(((u8*)ADC_Value)+6);        //PITCH½Ç
+//	packetData[8] = *(((u8*)ADC_Value)+6);        //PITCHè§’
 //	packetData[9] = *(((u8*)ADC_Value)+7);
-//	packetData[10] = dataPID;					  //Õâ¸ö·Ç³£ÖØÒª£¬ÕâÊÇ·ÀÖ¹·É»úÌÓÍÑÒ£¿ØµÄ±£Ö¤
-//	packetData[11] = 0xa5;						  //Ğ£ÑéÂë£º1010 0101
+//	packetData[10] = dataPID;					  //è¿™ä¸ªéå¸¸é‡è¦ï¼Œè¿™æ˜¯é˜²æ­¢é£æœºé€ƒè„±é¥æ§çš„ä¿è¯
+//	packetData[11] = 0xa5;						  //æ ¡éªŒç ï¼š1010 0101
 //}
 
-////====================================½«´¦ÀíºÃµÄÊı¾İ½øĞĞ´ò°ü===================================
-////==============²ÉÓÃÒÆÎ»·½Ê½½øĞĞÊı¾İ´ò°ü£¬×¢Òâ£¬ÕâÖÖ·½Ê½ÓĞ¿ÉÄÜ»á·¢Éú¾«¶È½ØÈ¡µÄÏÖÏó=============
-////	packetData[0] = firstByte;							//Ç°µ¼Âë
+////====================================å°†å¤„ç†å¥½çš„æ•°æ®è¿›è¡Œæ‰“åŒ…===================================
+////==============é‡‡ç”¨ç§»ä½æ–¹å¼è¿›è¡Œæ•°æ®æ‰“åŒ…ï¼Œæ³¨æ„ï¼Œè¿™ç§æ–¹å¼æœ‰å¯èƒ½ä¼šå‘ç”Ÿç²¾åº¦æˆªå–çš„ç°è±¡=============
+////	packetData[0] = firstByte;							//å‰å¯¼ç 
 ////	packetData[1] = ButtonMask;
 ////	packetData[2] = (u8)(ADC_ConvertedValue[0]>>8);
 ////	packetData[3] = ADC_ConvertedValue[0];
@@ -87,10 +84,5 @@ FLY_TYPE  FLY;
 ////	packetData[7] = ADC_ConvertedValue[2];
 ////	packetData[8] = (u8)(ADC_ConvertedValue[3]>>8);
 ////	packetData[9] = ADC_ConvertedValue[3];
-////	packetData[10] = 0xa5;								//Ğ£ÑéÂë£º1010 0101
+////	packetData[10] = 0xa5;								//æ ¡éªŒç ï¼š1010 0101
 //	
-
-
-
-
-

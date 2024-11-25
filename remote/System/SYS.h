@@ -1,36 +1,54 @@
 #ifndef __SYS_H
 #define __SYS_H
 
-#include "stm32f10x.h"                 
-#include "Delay.h"
+/*STM32F103C8T6*/
+#include "stm32f10x.h"    
+#include "stm32f10x_tim.h"
+
+
+/*FreeRTOS*/
 #include "FreeRTOS.h"
 #include "task.h"
+#include "timers.h"
 #include "semphr.h" 
 #include "queue.h"
-#include "LED.h"
-#include "timers.h"
-#include "timer.h"
-#include "Key.h"
-#include "string.h"
 
+/*c STANDARD*/
 #include <string.h>
 #include <stdio.h>
-
-#include "i2c.h"
-#include "stdlib.h"
-
-#include "MyRTC.h"
-#include "u8g2.h"
-#include "u8x8.h"
-#include "u8g2_font_MyChinese.h"
+#include <stdlib.h>
 #include <stdio.h>
 #include <stdarg.h>
+#include <time.h>
+
+/*system*/
+#include "Delay.h"
+#include "MyRTC.h"
+
+/*hardware*/
+#include "LED.h"
+#include "timer.h"
+#include "Key.h"
+#include "i2c.h"
 #include "usart.h"
 #include "MySPI.h"
 #include "ADC_PS2.h"
 #include "si24r1.h"
+
+/*Remote*/
 #include "Remote.h"
+
+/*u8g2*/
+#include "u8g2.h"
+#include "u8x8.h"
+#include "u8g2_font_MyChinese.h"
 #include "DisplayOLED.h"
+
+#define STOP  	 0x00
+#define Forward  0x01
+#define Backward 0x02
+#define Left  	 0x03
+#define Right  	 0x04
 
 extern u8 FLYDataRx_OK;   
 
@@ -38,10 +56,9 @@ extern u8g2_t u8g2;
 extern TaskHandle_t Task1_Handler;
 extern TaskHandle_t Task2_Handler;
 extern TaskHandle_t Task3_Handler;
-extern SemaphoreHandle_t xBinarySemaphore; //¶ş½øÖÆĞÅºÅÁ¿
-
+extern SemaphoreHandle_t xBinarySemaphore; //äºŒè¿›åˆ¶ä¿¡å·é‡
 extern bool FLYUNLOCK;
-extern vu16 ADC_ConvertedValue[4];  //Ò£¿ØÍ¨µÀADCÖµ
+extern vu16 ADC_ConvertedValue[4];  //é¥æ§é€šé“ADCå€¼
 extern u8 RxBuf[RX_PLOAD_WIDTH];	
 extern u8 TxBuf[TX_PLOAD_WIDTH];	
 extern uint8_t Page;
@@ -49,7 +66,7 @@ extern FLY_TYPE  FLY;
 extern u8 FLYDataRx_OK;   
 extern u8 TxBuf[TX_PLOAD_WIDTH];		
 extern u8 RxBuf[RX_PLOAD_WIDTH];
-extern volatile bool ADC_CALIBRATOR_OK;   //Ò£¿ØÍ¨µÀADCĞ£×¼±êÖ¾
+extern volatile bool ADC_CALIBRATOR_OK;   //é¥æ§é€šé“ADCæ ¡å‡†æ ‡å¿—
 ////void EXTI15_10_IRQHandler(void);
 extern vu16 ADC_Value[4];
 void ShowStackSt(void);
