@@ -1,0 +1,289 @@
+<html>
+<body>
+<pre>
+<h1>�Vision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: ��Vision V5.24.2.0
+Copyright (C) 2017 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: x 2106997706@qq.com, x, LIC=SDA0P-MRQ8V-LQW0Q-NACMT-73GTN-FFMA8
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Plus  Version: 5.24.1
+Toolchain Path:  D:\Keil\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 5 (build 528)
+Assembler:       Armasm.exe V5.06 update 5 (build 528)
+Linker/Locator:  ArmLink.exe V5.06 update 5 (build 528)
+Library Manager: ArmAr.exe V5.06 update 5 (build 528)
+Hex Converter:   FromElf.exe V5.06 update 5 (build 528)
+CPU DLL:         SARMCM3.DLL V5.24.1
+Dialog DLL:      DARMSTM.DLL V1.68.0.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.1.0
+Dialog DLL:      TCM.DLL V1.32.0.0
+ 
+<h2>Project:</h2>
+c:\Users\21069\Desktop\XXCHONG-FLY\XXCHONG-FLY\four-axis-mini\Project.uvprojx
+Project File Date:  11/25/2024
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 5 (build 528)', folder: 'D:\Keil\ARM\ARMCC\Bin'
+Rebuild target 'Target 1'
+assembling startup_stm32f10x_md.s...
+compiling stm32f10x_cec.c...
+compiling core_cm3.c...
+compiling stm32f10x_fsmc.c...
+compiling stm32f10x_crc.c...
+compiling stm32f10x_exti.c...
+compiling stm32f10x_adc.c...
+compiling stm32f10x_dbgmcu.c...
+compiling stm32f10x_bkp.c...
+compiling stm32f10x_dac.c...
+compiling stm32f10x_dma.c...
+compiling system_stm32f10x.c...
+compiling misc.c...
+compiling stm32f10x_flash.c...
+compiling stm32f10x_gpio.c...
+compiling stm32f10x_can.c...
+compiling stm32f10x_i2c.c...
+compiling stm32f10x_iwdg.c...
+compiling stm32f10x_pwr.c...
+compiling stm32f10x_rcc.c...
+compiling OLED.c...
+compiling stm32f10x_rtc.c...
+compiling stm32f10x_sdio.c...
+compiling stm32f10x_spi.c...
+compiling stm32f10x_wwdg.c...
+compiling Key.c...
+compiling stm32f10x_usart.c...
+compiling stm32f10x_tim.c...
+compiling delay.c...
+.\Control\PID.h(31): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\Control\REMOTE.h(32): warning:  #1-D: last line of file ends without a newline
+  #endif
+System\delay.c(77): warning:  #1-D: last line of file ends without a newline
+  }
+System\delay.c: 3 warnings, 0 errors
+compiling LED.c...
+.\Control\PID.h(31): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\Control\REMOTE.h(32): warning:  #1-D: last line of file ends without a newline
+  #endif
+Hardware\LED.c(6): warning:  #188-D: enumerated type mixed with another type
+  	RCC_APB2PeriphClockCmd(
+CC_APB2Periph_GPIOA, 
+NABLE);
+Hardware\LED.c: 3 warnings, 0 errors
+compiling sys.c...
+.\Control\PID.h(31): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\Control\REMOTE.h(32): warning:  #1-D: last line of file ends without a newline
+  #endif
+System\sys.c(35): warning:  #188-D: enumerated type mixed with another type
+  	NVIC_InitStruct.NVIC_IRQChannelCmd=
+NABLE;
+System\sys.c(41): warning:  #188-D: enumerated type mixed with another type
+  	NVIC_InitStruct.NVIC_IRQChannelCmd=
+NABLE;   //使能外部中断通道
+System\sys.c(61): warning:  #188-D: enumerated type mixed with another type
+      RCC_APB2PeriphClockCmd(
+CC_APB2Periph_GPIOA | 
+CC_APB2Periph_ADC1, 
+NABLE);
+System\sys.c(70): warning:  #188-D: enumerated type mixed with another type
+      ADC_InitStruct.ADC_ScanConvMode = 
+ISABLE;                       // ɨ��ת��ģʽʧ��
+System\sys.c(72): warning:  #188-D: enumerated type mixed with another type
+      ADC_InitStruct.ADC_ContinuousConvMode = 
+ISABLE;                 // ����ת��ʧ��
+System\sys.c(75): warning:  #188-D: enumerated type mixed with another type
+      ADC_Cmd(
+DC1, 
+NABLE); 
+System\sys.c(83): warning:  #188-D: enumerated type mixed with another type
+      ADC_SoftwareStartConvCmd(
+DC1, 
+NABLE); 
+System\sys.c: 9 warnings, 0 errors
+compiling Serial.c...
+.\Control\PID.h(31): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\Control\REMOTE.h(32): warning:  #1-D: last line of file ends without a newline
+  #endif
+Hardware\Serial.c(11): warning:  #188-D: enumerated type mixed with another type
+  	RCC_APB2PeriphClockCmd(
+CC_APB2Periph_USART1,
+NABLE);
+Hardware\Serial.c(12): warning:  #188-D: enumerated type mixed with another type
+  	RCC_APB2PeriphClockCmd(
+CC_APB2Periph_GPIOA,
+NABLE);
+Hardware\Serial.c(33): warning:  #188-D: enumerated type mixed with another type
+  	USART_ITConfig(
+SART1,
+SART_IT_RXNE,
+NABLE);
+Hardware\Serial.c(34): warning:  #188-D: enumerated type mixed with another type
+  	USART_ITConfig(
+SART1,
+SART_IT_IDLE,
+NABLE);		//串口空闲中断
+Hardware\Serial.c(35): warning:  #188-D: enumerated type mixed with another type
+  	USART_DMACmd(
+SART1, 
+SART_DMAReq_Tx, 
+NABLE);		//使能串口DMA发�?
+Hardware\Serial.c(36): warning:  #188-D: enumerated type mixed with another type
+  	USART_Cmd(
+SART1,
+NABLE);
+Hardware\Serial.c(44): warning:  #188-D: enumerated type mixed with another type
+  	RCC_AHBPeriphClockCmd(
+CC_AHBPeriph_DMA1, 
+NABLE);	
+Hardware\Serial.c(63): warning:  #188-D: enumerated type mixed with another type
+  	DMA_Cmd(
+MA1_Channel4,
+ISABLE);
+Hardware\Serial.c(65): warning:  #188-D: enumerated type mixed with another type
+  	DMA_Cmd(
+MA1_Channel4,
+NABLE);
+Hardware\Serial.c: 11 warnings, 0 errors
+compiling timer.c...
+.\Control\PID.h(31): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\Control\REMOTE.h(32): warning:  #1-D: last line of file ends without a newline
+  #endif
+Hardware\timer.c(7): warning:  #188-D: enumerated type mixed with another type
+  	RCC_APB1PeriphClockCmd(
+CC_APB1Periph_TIM4,
+NABLE);
+Hardware\timer.c(15): warning:  #188-D: enumerated type mixed with another type
+  	TIM_ITConfig(
+IM4,
+IM_IT_Update,
+NABLE);
+Hardware\timer.c(17): warning:  #188-D: enumerated type mixed with another type
+  	TIM_Cmd(
+IM4,
+NABLE);
+Hardware\timer.c: 5 warnings, 0 errors
+compiling MySPI.c...
+compiling iic.c...
+.\Control\PID.h(31): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\Control\REMOTE.h(32): warning:  #1-D: last line of file ends without a newline
+  #endif
+Hardware\iic.c(33): warning:  #188-D: enumerated type mixed with another type
+  	RCC_APB2PeriphClockCmd(
+CC_APB2Periph_GPIOB,
+NABLE);
+Hardware\iic.c(317): warning:  #1-D: last line of file ends without a newline
+  }
+Hardware\iic.c: 4 warnings, 0 errors
+compiling PWM.c...
+.\Control\PID.h(31): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\Control\REMOTE.h(32): warning:  #1-D: last line of file ends without a newline
+  #endif
+Hardware\PWM.c(10): warning:  #188-D: enumerated type mixed with another type
+  	RCC_APB2PeriphClockCmd(
+CC_APB2Periph_GPIOA|
+CC_APB2Periph_GPIOB|
+CC_APB2Periph_AFIO,
+NABLE);   
+Hardware\PWM.c(11): warning:  #188-D: enumerated type mixed with another type
+  	RCC_APB1PeriphClockCmd(
+CC_APB1Periph_TIM3,
+NABLE);  
+Hardware\PWM.c(50): warning:  #188-D: enumerated type mixed with another type
+  	TIM_Cmd(
+IM3,
+NABLE);   
+Hardware\PWM.c: 5 warnings, 0 errors
+compiling croutine.c...
+compiling si24r1.c...
+.\Control\PID.h(31): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\Control\REMOTE.h(32): warning:  #1-D: last line of file ends without a newline
+  #endif
+Hardware\si24r1.c: 2 warnings, 0 errors
+compiling list.c...
+compiling event_groups.c...
+compiling queue.c...
+compiling stm32f10x_it.c...
+compiling main.c...
+.\Control\PID.h(31): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\Control\REMOTE.h(32): warning:  #1-D: last line of file ends without a newline
+  #endif
+User\main.c: 2 warnings, 0 errors
+compiling timers.c...
+compiling tasks.c...
+compiling heap_4.c...
+compiling port.c...
+compiling filter.c...
+compiling myMath.c...
+compiling kalman.c...
+compiling imu.c...
+.\Control\PID.h(31): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\Control\REMOTE.h(32): warning:  #1-D: last line of file ends without a newline
+  #endif
+Mpu6050\imu.c: 2 warnings, 0 errors
+compiling control.c...
+.\Control\PID.h(31): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\Control\REMOTE.h(32): warning:  #1-D: last line of file ends without a newline
+  #endif
+Control\control.c: 2 warnings, 0 errors
+compiling REMOTE.c...
+.\Control\PID.h(31): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\Control\REMOTE.h(32): warning:  #1-D: last line of file ends without a newline
+  #endif
+Control\REMOTE.c(41): warning:  #1-D: last line of file ends without a newline
+  }
+Control\REMOTE.c: 3 warnings, 0 errors
+compiling PID.c...
+.\Control\PID.h(31): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\Control\REMOTE.h(32): warning:  #1-D: last line of file ends without a newline
+  #endif
+Control\PID.c(33): warning:  #1-D: last line of file ends without a newline
+  }
+Control\PID.c: 3 warnings, 0 errors
+compiling mpu6050.c...
+.\Control\PID.h(31): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\Control\REMOTE.h(32): warning:  #1-D: last line of file ends without a newline
+  #endif
+Mpu6050\mpu6050.c: 2 warnings, 0 errors
+compiling ANO_DT.c...
+.\Control\PID.h(31): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\Control\REMOTE.h(32): warning:  #1-D: last line of file ends without a newline
+  #endif
+ANO_DT\ANO_DT.c(568): warning:  #1-D: last line of file ends without a newline
+  }
+ANO_DT\ANO_DT.c: 3 warnings, 0 errors
+linking...
+Program Size: Code=25520 RO-data=536 RW-data=364 ZI-data=12244  
+".\Objects\Project.axf" - 0 Error(s), 59 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32F1xx_DFP.2.2.0.pack
+                Keil.STM32F1xx_DFP.2.2.0
+                STMicroelectronics STM32F1 Series Device Support, Drivers and Examples
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_Target_1
+  D:\Keil\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include
+
+<h2>Collection of Component Files used:</h2>
+Build Time Elapsed:  00:00:02
+</pre>
+</body>
+</html>

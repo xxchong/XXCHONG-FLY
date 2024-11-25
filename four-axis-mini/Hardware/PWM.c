@@ -1,9 +1,8 @@
-#include "sys.h"                  // Device header
+#include "sys.h"           
 
 
 void TIM3_PWM_Init(void)
 {
- 
 	GPIO_InitTypeDef GPIO_InitStruct;  
 	TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStruct;   
 	TIM_OCInitTypeDef TIM_OCInitStruct;  
@@ -22,13 +21,11 @@ void TIM3_PWM_Init(void)
 	GPIO_Init(GPIOB,&GPIO_InitStruct);  
 	
 	TIM_TimeBaseInitStruct.TIM_Period=1000-1;   	  
-	TIM_TimeBaseInitStruct.TIM_Prescaler=100;   	//PWMÖÜÆÚÊÇ720HZ  
+	TIM_TimeBaseInitStruct.TIM_Prescaler=100;   	//PWMï¿½ï¿½ï¿½ï¿½ï¿½ï¿½720HZ  
 	TIM_TimeBaseInitStruct.TIM_CounterMode=TIM_CounterMode_Up; 
 	TIM_TimeBaseInitStruct.TIM_ClockDivision=TIM_CKD_DIV1;     
 	TIM_TimeBaseInit(TIM3,&TIM_TimeBaseInitStruct);   		 
 	
- 
-
 	TIM_OCInitStruct.TIM_OCMode=TIM_OCMode_PWM1;   
 	TIM_OCInitStruct.TIM_Pulse=0;   							
 	TIM_OCInitStruct.TIM_OCPolarity=TIM_OCPolarity_High;   		
@@ -37,9 +34,10 @@ void TIM3_PWM_Init(void)
 	TIM_OC1Init(TIM3,&TIM_OCInitStruct);   					
 	TIM_OC1PreloadConfig(TIM3,TIM_OCPreload_Enable);  
 	
-//	TIM_OC3PreloadConfig º¯ÊıÓÃÓÚÅäÖÃTIM3µÄOC3Êä³öµÄÔ¤×°ÔØ¹¦ÄÜ¡£
-//	Ô¤×°ÔØ¹¦ÄÜÍ¨³£ÓÃÓÚÔÚ¸üĞÂÊÂ¼ş·¢ÉúÊ±Æ½»¬µØ¸Ä±äÊä³ö±È½Ï¼Ä´æÆ÷µÄÖµ£¬ÒÔ±ÜÃâÔÚ¸üĞÂ¹ı³ÌÖĞ²úÉú²»ÆÚÍûµÄÊä³ö±ä»¯¡£
-	
+/*	TIM_OC3PreloadConfig å‡½æ•°ç”¨äºé…ç½®TIM3çš„OC3è¾“å‡ºçš„é¢„è£…è½½åŠŸèƒ½ã€‚
+	é¢„è£…è½½åŠŸèƒ½é€šå¸¸ç”¨äºåœ¨æ›´æ–°äº‹ä»¶å‘ç”Ÿæ—¶å¹³æ»‘åœ°æ”¹å˜è¾“å‡ºæ¯”è¾ƒå¯„å­˜å™¨çš„å€¼ï¼Œä»¥é¿å…åœ¨æ›´æ–°è¿‡ç¨‹ä¸­äº§ç”Ÿä¸æœŸæœ›çš„è¾“å‡ºå˜åŒ–ã€‚
+*/	
+
 	TIM_OC2Init(TIM3,&TIM_OCInitStruct);   						
 	TIM_OC2PreloadConfig(TIM3,TIM_OCPreload_Enable);   
 
@@ -58,7 +56,7 @@ void TIM3_PWM_Init(void)
          TIM3 CH3(PWM3) -> PB0
          TIM3 CH4(PWM4) -> PB1
 ***********************************/
-//ÉèÖÃPWMËÙ¶È
+//è®¾ç½®PWM
 void Motor_Set_Pwm(uint16_t PWM1,uint16_t PWM2,uint16_t PWM3,uint16_t PWM4)
 {
 	TIM3->CCR1=PWM1;
@@ -67,7 +65,7 @@ void Motor_Set_Pwm(uint16_t PWM1,uint16_t PWM2,uint16_t PWM3,uint16_t PWM4)
 	TIM3->CCR4=PWM4;
 }
 
-//ÏŞÖÆPWM×î´óËÙ¶È
+//é™å¹…
 void Motor_Pwm_Limit(uint16_t *PWM1,uint16_t *PWM2,uint16_t *PWM3,uint16_t *PWM4)
 {
 	

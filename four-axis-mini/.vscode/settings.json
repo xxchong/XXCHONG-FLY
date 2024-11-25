@@ -1,0 +1,28 @@
+{
+    "files.associations": {
+        "sys.h": "c",
+        "stm32f10x.h": "c",
+        "remote.h": "c",
+        "kalman.h": "c",
+        "semphr.h": "c",
+        "myi2c.h": "c",
+        "delay.h": "c",
+        "freertos.h": "c",
+        "oled.h": "c",
+        "serial.h": "c",
+        "key.h": "c",
+        "timers.h": "c",
+        "accctrl.h": "c",
+        "math.h": "c",
+        "timer.h": "c",
+        "mpu6050.h": "c",
+        "filter.h": "c",
+        "myspi.h": "c",
+        "ano_dt.h": "c",
+        "stdarg.h": "c",
+        "iic.h": "c",
+        "mymath.h": "c",
+        "stm32f10x_tim.h": "c",
+        "oled_chinese.h": "c"
+    }
+}

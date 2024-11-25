@@ -24,11 +24,8 @@ typedef volatile struct
 
 
 
-extern void CascadePID(PidObject* pidRate,PidObject* pidAngE,const float dt);  //串级PID
-extern void pidRest(PidObject **pid,const uint8_t len); //pid数据复位
+extern void CascadePID(PidObject* pidRate,PidObject* pidAngE,const float dt); //涓茬骇PID
+extern void pidRest(PidObject **pid,const uint8_t len); //pid鏁版嵁褰掍綅
 extern void pidUpdate(PidObject* pid,const float dt);  //PID
 
 #endif
-
-
-

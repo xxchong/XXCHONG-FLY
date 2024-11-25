@@ -1,59 +1,54 @@
 #include "sys.h"
-#define N 20 // ÂË²¨»º´æÊı×é´óĞ¡
+#define N 20 // æ»¤æ³¢ç¼“å­˜æ•°ç»„å¤§å°
 
 
-_st_Mpu MPU6050;   //MPU6050Ô­Ê¼Êı¾İ
-_st_AngE Angle;    //µ±Ç°½Ç¶È×ËÌ¬Öµ
+_st_Mpu MPU6050;   //MPU6050åŸå§‹æ•°æ®
+_st_AngE Angle;    //å½“å‰è§’åº¦å§¿æ€å€¼
 _st_ALL_flag ALL_flag;
 
 BATT_TYPE BAT =
 {
-    .BattAdc = 0,       // µç³ØµçÑ¹²É¼¯ADCÖµ
-    .BattRealV = 3.31f,  // Êµ¼Ê²âÁ¿µÄ·É»ú¹©µçµçÑ¹ (×¢Òâ´ËµçÑ¹±ØĞëÇ×²â·ñÔò²âÁ¿µÄµçÑ¹²»×¼)
-    .BattMeasureV = 0,  // ³ÌĞò²âÁ¿µÄÊµ¼Êµç³ØµçÑ¹
-    .BattAlarmV = 3.2f, // µç³ØµÍµçÑ¹±¨¾¯Ë²Ê±Öµ (Õâ¸öÖµĞèÒª¸ù¾İ»úÉí²»Í¬ÖØÁ¿Êµ²â£¬Êµ²â380mhÊÇ2.8v)
-    .BattFullV = 4.2f,  // µç³Ø³äÂúµçÖµ 4.2V
+    .BattAdc = 0,       // ç”µæ± ç”µå‹é‡‡é›†ADCå€¼
+    .BattRealV = 3.31f,  // å®é™…æµ‹é‡çš„é£æœºä¾›ç”µç”µå‹ (æ³¨æ„æ­¤ç”µå‹å¿…é¡»äº²æµ‹å¦åˆ™æµ‹é‡çš„ç”µå‹ä¸å‡†)
+    .BattMeasureV = 0,  // ç¨‹åºæµ‹é‡çš„å®é™…ç”µæ± ç”µå‹
+    .BattAlarmV = 3.2f, // ç”µæ± ä½ç”µå‹æŠ¥è­¦ç¬æ—¶å€¼ (è¿™ä¸ªå€¼éœ€è¦æ ¹æ®æœºèº«ä¸åŒé‡é‡å®æµ‹ï¼Œå®æµ‹380mhæ˜¯2.8v)
+    .BattFullV = 4.2f,  // ç”µæ± å……æ»¡ç”µå€¼ 4.2V
 };
 
-void Led_Init(void)
-{
-   	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
-	GPIO_InitTypeDef GPIO_InitStructure;
-	GPIO_InitStructure.GPIO_Mode=GPIO_Mode_Out_PP;
-	GPIO_InitStructure.GPIO_Pin=GPIO_Pin_8;
-	GPIO_InitStructure.GPIO_Speed=GPIO_Speed_50MHz;
-	GPIO_Init(GPIOB,&GPIO_InitStructure);
-	GPIO_SetBits(GPIOB,GPIO_Pin_8);
-}
 
 void NVIC_init(void)
 {
-	 NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); // ÉèÖÃÖĞ¶ÏÓÅÏÈ¼¶·Ö×é  
+	 NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); // è®¾ç½®ä¸­æ–­ä¼˜å…ˆçº§åˆ†ç»„  
   
 	 NVIC_InitTypeDef NVIC_InitStruct;
 	
 	
-//	NVIC_InitStruct.NVIC_IRQChannel=TIM4_IRQn;   //TIM4ÖĞ¶ÏÍ¨µÀ
-//	NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority=0;   //ÇÀÕ¼ÓÅÏÈ¼¶0
-//	NVIC_InitStruct.NVIC_IRQChannelSubPriority=1;   //×ÓÓÅÏÈ¼¶1
-//	NVIC_InitStruct.NVIC_IRQChannelCmd=ENABLE;   //Ê¹ÄÜTIM4ÖĞ¶ÏÍ¨µÀ
-//	NVIC_Init(&NVIC_InitStruct);   //ÖĞ¶ÏÓÅÏÈ¼¶³õÊ¼»¯º¯Êı
+//	NVIC_InitStruct.NVIC_IRQChannel=TIM4_IRQn;   //TIM4ä¸­æ–­é€šé“
+//	NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority=0;   //æŠ¢å ä¼˜å…ˆçº§0
+//	NVIC_InitStruct.NVIC_IRQChannelSubPriority=1;   //å­ä¼˜å…ˆçº§1
+//	NVIC_InitStruct.NVIC_IRQChannelCmd=ENABLE;   //ä½¿èƒ½TIM4ä¸­æ–­é€šé“
+//	NVIC_Init(&NVIC_InitStruct);   //ä¸­æ–­ä¼˜å…ˆçº§åˆå§‹åŒ–å‡½æ•°
 	
-	NVIC_InitStruct.NVIC_IRQChannel=USART1_IRQn;  //USART1ÖĞ¶ÏÍ¨µÀ
+	NVIC_InitStruct.NVIC_IRQChannel=USART1_IRQn;  //USART1ä¸­æ–­é€šé“
 	NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority=1;
 	NVIC_InitStruct.NVIC_IRQChannelSubPriority=1;
 	NVIC_InitStruct.NVIC_IRQChannelCmd=ENABLE;
 	NVIC_Init(&NVIC_InitStruct);
 	
-	NVIC_InitStruct.NVIC_IRQChannel=EXTI2_IRQn;   //ÅäÖÃÍâ²¿ÖĞ¶ÏÍ¨µÀ
-	NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority=0;   //ÉèÖÃÇÀÕ¼ÓÅÏÈ¼¶Îª0
-	NVIC_InitStruct.NVIC_IRQChannelSubPriority=1;   //ÉèÖÃ×ÓÓÅÏÈ¼¶Îª1
-	NVIC_InitStruct.NVIC_IRQChannelCmd=ENABLE;   //Ê¹ÄÜÍâ²¿ÖĞ¶ÏÍ¨µÀ
-	NVIC_Init(&NVIC_InitStruct);   //ÖĞ¶ÏÓÅÏÈ¼¶³õÊ¼»¯º¯Êı
+	NVIC_InitStruct.NVIC_IRQChannel=EXTI2_IRQn;   //é…ç½®å¤–éƒ¨ä¸­æ–­é€šé“
+	NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority=0;   //è®¾ç½®æŠ¢å ä¼˜å…ˆçº§ä¸º0
+	NVIC_InitStruct.NVIC_IRQChannelSubPriority=1;   //è®¾ç½®å­ä¼˜å…ˆçº§ä¸º1
+	NVIC_InitStruct.NVIC_IRQChannelCmd=ENABLE;   //ä½¿èƒ½å¤–éƒ¨ä¸­æ–­é€šé“
+	NVIC_Init(&NVIC_InitStruct);   //ä¸­æ–­ä¼˜å…ˆçº§åˆå§‹åŒ–å‡½æ•°
 
+    #ifdef AXIS_USE_KEY
+    NVIC_InitStruct.NVIC_IRQChannel = EXTI0_IRQn;     //é…ç½®å¤–éƒ¨ä¸­æ–­é€šé“
+	NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = 0;  
+	NVIC_InitStruct.NVIC_IRQChannelSubPriority = 0;         
+	NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;            	
+	NVIC_Init(&NVIC_InitStruct); 
+    #endif
 }
-
-
 
 
 
@@ -69,16 +64,16 @@ void Battery_Init(void)
     GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AIN; 
     GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-    ADC_InitStruct.ADC_Mode = ADC_Mode_Independent;                  // ¶ÀÁ¢Ä£Ê½
-    ADC_InitStruct.ADC_DataAlign = ADC_DataAlign_Right;              // Êı¾İÓÒ¶ÔÆë
-    ADC_InitStruct.ADC_NbrOfChannel = 1;                             // 1¸öÊı¾İÍ¨µÀ
-    ADC_InitStruct.ADC_ScanConvMode = DISABLE;                       // É¨Ãè×ª»»Ä£Ê½Ê§ÄÜ
-    ADC_InitStruct.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None; // Íâ²¿´¥·¢Ê§ÄÜ
-    ADC_InitStruct.ADC_ContinuousConvMode = DISABLE;                 // Á¬Ğø×ª»»Ê§ÄÜ
+    ADC_InitStruct.ADC_Mode = ADC_Mode_Independent;                  // ï¿½ï¿½ï¿½ï¿½Ä£Ê½
+    ADC_InitStruct.ADC_DataAlign = ADC_DataAlign_Right;              // ï¿½ï¿½ï¿½ï¿½ï¿½Ò¶ï¿½ï¿½ï¿½
+    ADC_InitStruct.ADC_NbrOfChannel = 1;                             // 1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
+    ADC_InitStruct.ADC_ScanConvMode = DISABLE;                       // É¨ï¿½ï¿½×ªï¿½ï¿½Ä£Ê½Ê§ï¿½ï¿½
+    ADC_InitStruct.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None; // ï¿½â²¿ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
+    ADC_InitStruct.ADC_ContinuousConvMode = DISABLE;                 // ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Ê§ï¿½ï¿½
     ADC_Init(ADC1, &ADC_InitStruct);
 
     ADC_Cmd(ADC1, ENABLE); 
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_1, 1, ADC_SampleTime_239Cycles5); // ¹æÔò×é×ª»»Í¨µÀ
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_1, 1, ADC_SampleTime_239Cycles5); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Í¨ï¿½ï¿½
 
 }
 
@@ -96,7 +91,7 @@ void BATT_GetVoltage(void)
     Aver_Filter((float)Get_BatteryAdc(ADC_Channel_1), &BAT.BattAdc, 6); 
     if (BAT.BattAdc)
         V = BAT.BattAdc * BAT.BattRealV / 4095.0f;
-    BAT.BattMeasureV = 2 * V; // ¸ù¾İÔ­Àíµç×è·ÖÑ¹£¬¿ÉÖª µç³ØÊµ¼ÊµçÑ¹ = ADC²àÁ¿µçÑ¹ * 2
+    BAT.BattMeasureV = 2 * V; // ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½Öª ï¿½ï¿½ï¿½Êµï¿½Êµï¿½Ñ¹ = ADCï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¹ * 2
 }
 
 void Aver_Filter(float data, float *filt_data, uint8_t n)
@@ -108,7 +103,7 @@ void Aver_Filter(float data, float *filt_data, uint8_t n)
     buf[cnt] = data;
     cnt++;
     if (cnt < n && flag)
-        return; // Êı×éÌî²»Âú²»¼ÆËã
+        return; // ï¿½ï¿½ï¿½ï¿½ï¿½î²»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     else
         flag = 0;
 

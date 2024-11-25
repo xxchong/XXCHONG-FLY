@@ -4,13 +4,13 @@ RemoteConnect_Str RemoteConnect;
 RC_TYPE RC;
 uint8_t SI24R1_Controlflag = 1;
 bool FLY_UnLock;
-uint8_t DataID;	//Êı¾İ°üID
+uint8_t DataID;	//æ•°æ®åŒ…ID
 
 
 void Remote_Data_ReceiveAnalysis(void)
 {
 	SI24R1_Controlflag = 1;
-	if(RxBuf[11]!=0xB8)	//ÑéÖ¤Ğ£ÑéÂëÊÇ·ñÎª0xa5
+	if(RxBuf[11]!=0xB8)	//éªŒè¯æ ¡éªŒç æ˜¯å¦ä¸º0xa5
 		return;
 	if(RxBuf[0] & 0xA8)
 	{
@@ -19,7 +19,7 @@ void Remote_Data_ReceiveAnalysis(void)
 		RC.ROLL     = RxBuf[6]<<8|RxBuf[5];	  	
 		RC.PITCH    = RxBuf[8]<<8|RxBuf[7];	
 		FLY_UnLock	= RxBuf[9]; 
-		DataID = RxBuf[10];//½«Êı¾İ°üÊ¶±ğPIDÖµÈ¡³ö£¬¸²¸ÇÖ®Ç°µÄÖµ£¬ÒÔ±íÊ¾ĞÅºÅÁ´½ÓÕı³£
+		DataID = RxBuf[10];//å°†æ•°æ®åŒ…è¯†åˆ«PIDå€¼å–å‡ºï¼Œè¦†ç›–ä¹‹å‰çš„å€¼ï¼Œä»¥è¡¨ç¤ºä¿¡å·é“¾æ¥æ­£å¸¸
 
 	}
 		
@@ -31,12 +31,11 @@ void SI24R1_SingalCheck(void)
 	
 	if(SI24R1_Controlflag)
 	{
-		if(FLY_UnLock && DataID == PreDataID)//·É»úÓëÒ£¿Ø¶Ï¿ªÁ¬½Ó
+		if(FLY_UnLock && DataID == PreDataID)//é£æœºä¸é¥æ§æ–­å¼€è¿æ¥
 		{
-			//½ô¼±½µÂä´¦Àí
-			//ºìµÆ³£ÁÁ±¨¾¯
+			//ç´§æ€¥é™è½å¤„ç†
+			//çº¢ç¯å¸¸äº®æŠ¥è­¦
 		}
 		PreDataID = DataID;
 	}
 }
-

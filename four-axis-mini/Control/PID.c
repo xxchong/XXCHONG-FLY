@@ -1,7 +1,5 @@
 #include "sys.h" 
 
-
-
 void pidRest(PidObject **pid,const uint8_t len)
 {
 	uint8_t i;
@@ -14,29 +12,22 @@ void pidRest(PidObject **pid,const uint8_t len)
 	}
 }
 
-
 void pidUpdate(PidObject* pid,const float dt)
 {
 	float error;
 	float deriv;
-	error = pid->desired - pid->measured; //µ±Ç°½Ç¶ÈÓëÊµ¼Ê½Ç¶ÈµÄÎó²î
-	pid->integ += error * dt;	 //Îó²î»ı·ÖÀÛ¼ÓÖµ
-	//  pid->integ = LIMIT(pid->integ,pid->IntegLimitLow,pid->IntegLimitHigh); //½øĞĞ»ı·ÖÏŞ·ù
-	deriv = (error - pid->prevError)/dt;  //Ç°ºóÁ½´ÎÎó²î×öÎ¢·Ö
-	pid->out = pid->kp * error + pid->ki * pid->integ + pid->kd * deriv;//PIDÊä³ö
-	//pid->out = LIMIT(pid->out,pid->OutLimitLow,pid->OutLimitHigh); //Êä³öÏŞ·ù
-	pid->prevError = error;  //¸üĞÂÉÏ´ÎµÄÎó²î	
+	error = pid->desired - pid->measured; //å½“å‰è§’åº¦ä¸å®é™…è§’åº¦çš„è¯¯å·®
+	pid->integ += error * dt;	 //è¯¯å·®ç§¯åˆ†ç´¯åŠ å€¼
+	//  pid->integ = LIMIT(pid->integ,pid->IntegLimitLow,pid->IntegLimitHigh); //è¿›è¡Œç§¯åˆ†é™å¹…
+	deriv = (error - pid->prevError)/dt;  //å‰åä¸¤æ¬¡è¯¯å·®åšå¾®åˆ†
+	pid->out = pid->kp * error + pid->ki * pid->integ + pid->kd * deriv;//PIDè¾“å‡º
+	//pid->out = LIMIT(pid->out,pid->OutLimitLow,pid->OutLimitHigh); //è¾“å‡ºé™å¹…
+	pid->prevError = error;  //æ›´æ–°ä¸Šæ¬¡çš„è¯¯å·®	
 }
 
-void CascadePID(PidObject* pidRate,PidObject* pidAngE,const float dt)  //´®¼¶PID
+void CascadePID(PidObject* pidRate,PidObject* pidAngE,const float dt)  //ä¸²çº§PID
 {	 
-	pidUpdate(pidAngE,dt);    //ÏÈ¼ÆËãÍâ»·
+	pidUpdate(pidAngE,dt);    //å…ˆè®¡ç®—å¤–ç¯
 	pidRate->desired = pidAngE->out;
-	pidUpdate(pidRate,dt);    //ÔÙ¼ÆËãÄÚ»·	
+	pidUpdate(pidRate,dt);    //å†è®¡ç®—å†…ç¯	
 }
-
-
-
-
-
-

@@ -1,45 +1,30 @@
 #include "stm32f10x.h"                  // Device header
 #include "Delay.h"
 
+#ifdef AXIS_USE_KEY
 void Key_Init(void)
 {
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-	
 	GPIO_InitTypeDef GPIO_InitStructure;
+
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
-}
 
 
-void KeyIntInit(void)
-{
-	EXTI_InitTypeDef EXTI_InitStructure;//∂®“Â≥ı ºªØΩ·ππÃÂ
-	NVIC_InitTypeDef NVIC_InitStructure;//∂®“ÂΩ·ππÃÂ
+	EXTI_InitTypeDef EXTI_InitStructure; 
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE); 
 
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE); /*  πƒ‹AFIO∏¥”√ ±÷” */
-
-	GPIO_EXTILineConfig(GPIO_PortSourceGPIOA, GPIO_PinSource0); /* Ω´GPIOø⁄”Î÷–∂œœﬂ”≥…‰∆¿¥ */
-
-
-	EXTI_InitStructure.EXTI_Line=EXTI_Line0; // ÷–∂œœﬂ
-	EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;            // ÷–∂œƒ£ Ω
-	EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling; // À´±ﬂ—ÿ¥•∑¢
-
+	GPIO_EXTILineConfig(GPIO_PortSourceGPIOA, GPIO_PinSource0); //‰∏≠Êñ≠Á∫øÈÖçÁΩÆ
+	EXTI_InitStructure.EXTI_Line=EXTI_Line0; //GPIO0
+	EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;    
+	EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling; //‰∏ãÈôçÊ≤øËß¶Âèë
 	EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-
-	EXTI_Init(&EXTI_InitStructure); // ≥ı ºªØ	
-
-
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
-	NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn;     // πƒ‹Õ‚≤ø÷–∂œÀ˘‘⁄µƒÕ®µ¿	
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;  // «¿’º”≈œ»º∂
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;         // ◊””≈œ»º∂
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;            //  πƒ‹Õ‚≤ø÷–∂œÕ®µ¿ 	
-	NVIC_Init(&NVIC_InitStructure); // ≥ı ºªØ 
-
+	EXTI_Init(&EXTI_InitStructure); 	
 }
+#endif
 
 
 

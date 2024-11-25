@@ -3,7 +3,7 @@
 
 
 #define SUCCESS 0
-#undef FAILED  //È¡ÏûÖ®Ç°¶¨ÒåµÄ FAILED ºê¡£
+#undef FAILED  //å–æ¶ˆä¹‹å‰å®šä¹‰çš„ FAILED å®ã€‚
 	#define FAILED  1
 
 #include <stdbool.h>
@@ -12,15 +12,14 @@
 
 typedef struct tagRemoteConnect
 {
-	uint16_t	ConnectTimeCnt;		//Á¬½ÓÊ±¼ä¼ÆÊ±£¬Ã¿3ms×Ô¼Ó£»	
-	uint8_t		ConnectState;		//1-Á¬½Ó£¬0-Î´Á¬½Ó
-	uint8_t		RemoteSignalLost;	//ĞÅºÅ¶ªÊ§
-	uint16_t	RemSigLostTimeCnt;	//ĞÅºÅ¶ªÊ§Ê±¼ä¼ÆÊ±
+	uint16_t	ConnectTimeCnt;		//è¿æ¥æ—¶é—´è®¡æ—¶ï¼Œæ¯3msè‡ªåŠ ï¼›	
+	uint8_t		ConnectState;		//1-è¿æ¥ï¼Œ0-æœªè¿æ¥
+	uint8_t		RemoteSignalLost;	//ä¿¡å·ä¸¢å¤±
+	uint16_t	RemSigLostTimeCnt;	//ä¿¡å·ä¸¢å¤±æ—¶é—´è®¡æ—¶
 
 }RemoteConnect_Str;
 
-
-//Ò£¿ØÆ÷µÄÊı¾İ½á¹¹ 
+//é¥æ§å™¨çš„æ•°æ®ç»“æ„ 
 typedef struct
 {
 	int16_t ROLL;
@@ -30,10 +29,4 @@ typedef struct
 }RC_TYPE;
 void Remote_Data_ReceiveAnalysis(void);
 
-
-
-
-
 #endif
-
-

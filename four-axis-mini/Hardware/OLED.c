@@ -1,7 +1,8 @@
+
+#ifdef AXIS_USE_OLED
 #include "stm32f10x.h"
 #include "OLED_Font.h"
 #include "OLED_Chinese.h"
-#include "string.h"
 
 /*引脚配置*/
 void OLED_W_SCL(uint8_t BitValue)
@@ -406,3 +407,4 @@ void OLED_Init(void)
 		
 	OLED_Clear();				//OLED清屏
 }
+#endif

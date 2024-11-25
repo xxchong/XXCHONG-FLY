@@ -1,9 +1,7 @@
   
-#include "stm32f10x.h"                  // Device header
-#include "Serial.h"
-#include <stdio.h>
-#include <stdarg.h>
-#include "ANO_DT.h"  
+#include "sys.h" 
+
+
 uint8_t Serial_RxData;
 uint8_t receivedata;
 uint8_t Serial_RxFlag;
@@ -19,12 +17,10 @@ void Serial_Init(void)
 	GPIOA_InitStruct.GPIO_Speed=GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA,&GPIOA_InitStruct);
 	
-	
 	GPIOA_InitStruct.GPIO_Mode=GPIO_Mode_IPU;
 	GPIOA_InitStruct.GPIO_Pin=GPIO_Pin_10;
 	GPIOA_InitStruct.GPIO_Speed=GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA,&GPIOA_InitStruct);
-	
 	
 	USART_InitTypeDef USART1_InitTypeDef;
 	USART1_InitTypeDef.USART_BaudRate=460800;
@@ -36,7 +32,6 @@ void Serial_Init(void)
 	USART_Init(USART1,&USART1_InitTypeDef);
 	USART_ITConfig(USART1,USART_IT_RXNE,ENABLE);
 	USART_ITConfig(USART1,USART_IT_IDLE,ENABLE);		//串口空闲中断
-
 	USART_DMACmd(USART1, USART_DMAReq_Tx, ENABLE);		//使能串口DMA发送
 	USART_Cmd(USART1,ENABLE);
 
@@ -63,13 +58,8 @@ void USART1_DMA_Init(DMA_Channel_TypeDef* DMA1_CHx,uint32_t Peripheral_addr,uint
 
 }
 
-
-
-
-
 void USART1_DMA_Send(uint8_t *DATA,uint16_t Lenght)
 {
-	
 	DMA_Cmd(DMA1_Channel4,DISABLE);
 	DMA_SetCurrDataCounter(DMA1_Channel4,Lenght); 
 	DMA_Cmd(DMA1_Channel4,ENABLE);
@@ -79,11 +69,8 @@ void USART1_DMA_Send(uint8_t *DATA,uint16_t Lenght)
 
 void Serial_SendByte(uint8_t Byte)
 {
-	
 	USART_SendData(USART1,Byte);
-	
 	while(USART_GetFlagStatus(USART1,USART_FLAG_TXE)==RESET);
-	//硬件清零
 }
 
 void Serial_SendArray(uint8_t *Array,uint16_t length)
@@ -106,16 +93,12 @@ void Serial_SendString(char *String)
 
 void Usart_SendString(u8 *String,uint8_t len)
 {
-	
 	for(int i=0; i<len;i++)
 	{
 		Serial_SendByte(String[i]);
 	}
 	
 }
-
-
-
 
 
 uint32_t Serial_Pow(uint32_t X,uint32_t Y)
@@ -136,7 +119,6 @@ void Serial_SendNumber(uint32_t Number,uint8_t Length)
 	}
 }
 
-
 uint8_t Serial_GetRxFlag(void)
 {
 	if(Serial_RxFlag)
@@ -151,7 +133,6 @@ uint8_t Serial_GetRxData(void)
 	return receivedata;
 }
 
-
 void USART1_IRQHandler(void)
 {
 	uint8_t clear = clear; //定义这个变量是针对编译出现“没有用到这个变量”的警告提示
@@ -165,14 +146,9 @@ void USART1_IRQHandler(void)
 	{
 		clear = USART1->SR; //读SR寄存器
 		clear = USART1->DR; //读DR寄存器（先读SR,再度DR,就是为了清除IDIE中断）
-		
 	}
 	USART_ClearITPendingBit(USART1,USART_IT_RXNE);
 }
-
-
-
-
 //重定向
 int fputc(int ch,FILE *f)
 {

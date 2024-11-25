@@ -1,14 +1,14 @@
 #include "sys.h"
 
 /////////////////////////////////////////////////////////////////////////////////////
-//���ݲ�ֺ궨�壬�ڷ��ʹ���1�ֽڵ���������ʱ������int16��float�ȣ���Ҫ�����ݲ�ֳɵ����ֽڽ��з���
+//数据拆分宏定义，在发送大于1字节的数据类型时，比如int16、float等，需要把数据拆分成单独字节进行发送
 //#define BYTE0(dwTemp)       ( *( (char *)(&dwTemp)		) )
 //#define BYTE1(dwTemp)       ( *( (char *)(&dwTemp) + 1) )
 //#define BYTE2(dwTemp)       ( *( (char *)(&dwTemp) + 2) )
 //#define BYTE3(dwTemp)       ( *( (char *)(&dwTemp) + 3) )
 
-dt_flag_t f;					//��Ҫ�������ݵı�־
-uint8_t data_to_send[50];	//�������ݻ���
+dt_flag_t f;					//需要发送数据的标志
+uint8_t data_to_send[50];	//发送数据缓存
 
 
 
@@ -16,8 +16,8 @@ uint8_t data_to_send[50];	//�������ݻ���
 extern BATT_TYPE BAT;
 extern RC_TYPE RC;
 /////////////////////////////////////////////////////////////////////////////////////
-//Data_Exchange���������������ݷ������󣬱�����ʵ��ÿ5ms����һ�δ�������������λ�������ڴ˺�����ʵ��
-//�˺���Ӧ���û�ÿ1ms����һ��
+//Data_Exchange函数处理各种数据发送请求，比如想实现每5ms发送一次传感器数据至上位机，即在此函数内实现
+//此函数应由用户每1ms调用一次
 void ANO_DT_Data_Exchange(void)
 {
 	static uint8_t status_cnt 	= 0;
@@ -139,9 +139,9 @@ static void ANO_DT_Send_Check(u8 head, u8 check_sum)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
-//Data_Receive_Prepare������Э��Ԥ����������Э��ĸ�ʽ�����յ������ݽ���һ�θ�ʽ�Խ�������ʽ��ȷ�Ļ��ٽ������ݽ���
-//��ֲʱ���˺���Ӧ���û���������ʹ�õ�ͨ�ŷ�ʽ���е��ã����紮��ÿ�յ�һ�ֽ����ݣ�����ô˺���һ��
-//�˺������������ϸ�ʽ������֡�󣬻����е������ݽ�������
+//Data_Receive_Prepare函数是协议预解析，根据协议的格式，将收到的数据进行一次格式性解析，格式正确的话再进行数据解析
+//移植时，此函数应由用户根据自身使用的通信方式自行调用，比如串口每收到一字节数据，则调用此函数一次
+//此函数解析出符合格式的数据帧后，会自行调用数据解析函数
 void ANO_DT_Data_Receive_Prepare(u8 data)
 {
 	static u8 RxBuffer[50];
@@ -187,16 +187,16 @@ void ANO_DT_Data_Receive_Prepare(u8 data)
 		state = 0;
 }
 /////////////////////////////////////////////////////////////////////////////////////
-////Data_Receive_Anl������Э�����ݽ������������������Ƿ���Э���ʽ��һ������֡���ú��������ȶ�Э�����ݽ���У��
-////У��ͨ��������ݽ��н�����ʵ����Ӧ����
-////�˺������Բ����û����е��ã��ɺ���Data_Receive_Prepare�Զ�����
+////Data_Receive_Anl函数是协议数据解析函数，函数参数是符合协议格式的一个数据帧，该函数会首先对协议数据进行校验
+////校验通过后对数据进行解析，实现相应功能
+////此函数可以不用用户自行调用，由函数Data_Receive_Prepare自动调用
 void ANO_DT_Data_Receive_Anl(u8 *data_buf,u8 num)
 {
 	u8 sum = 0;
 	for(u8 i=0;i<(num-1);i++)
 		sum += *(data_buf+i);
-	if(!(sum==*(data_buf+num-1)))		return;		//�ж�sum
-	if(!(*(data_buf)==0xAA && *(data_buf+1)==0xAF))		return;		//�ж�֡ͷ
+	if(!(sum==*(data_buf+num-1)))		return;		//判断sum
+	if(!(*(data_buf)==0xAA && *(data_buf+1)==0xAF))		return;		//判断帧头
 	
 	if(*(data_buf+2)==0X01)
 	{
@@ -226,11 +226,11 @@ void ANO_DT_Data_Receive_Anl(u8 *data_buf,u8 num)
 		{
 			
 		}
-		if(*(data_buf+4)==0XA0)		//��ȡ�汾��Ϣ
+		if(*(data_buf+4)==0XA0)		//读取版本信息
 		{
 			f.send_version = 1;
 		}
-		if(*(data_buf+4)==0XA1)		//�ָ�Ĭ�ϲ���
+		if(*(data_buf+4)==0XA1)		//恢复默认参数
 		{
 
 		}
@@ -325,36 +325,36 @@ void ANO_DT_Send_Status(float angle_rol, float angle_pit, float angle_yaw, s32 a
 	uint8_t i;
 
 	
-	data_to_send[cnt++]=0xAA;		//֡ͷ��AAAA
+	data_to_send[cnt++]=0xAA;		//帧头：AAAA
 	data_to_send[cnt++]=0xAA;		//
-	data_to_send[cnt++]=0x01;		//�����֣�0xFnֻ�������ݣ�����ʾͼ��0x0n��ʾ���ݺ�ͼ��0x01��ʾ���͵���STATUS
-	data_to_send[cnt++]=0;				//��Ҫ�������ݵ��ֽ������ݸ�0
+	data_to_send[cnt++]=0x01;		//功能字：0xFn只接受数据，不显示图像；0x0n显示数据和图像；0x01表示发送的是STATUS
+	data_to_send[cnt++]=0;				//需要发送数据的字节数，暂给0
 
-	temp = (int)(angle_rol*100);				//�����
-	data_to_send[cnt++]=BYTE1(temp);		//���ֽ�
-	data_to_send[cnt++]=BYTE0(temp);		//���ֽ�
+	temp = (int)(angle_rol*100);				//横滚角
+	data_to_send[cnt++]=BYTE1(temp);		//高字节
+	data_to_send[cnt++]=BYTE0(temp);		//低字节
     
-	temp = (int)(angle_pit*100);         //������    
+	temp = (int)(angle_pit*100);         //俯仰角    
 	data_to_send[cnt++]=BYTE1(temp);
 	data_to_send[cnt++]=BYTE0(temp);
     
-	temp = (int)(angle_yaw*100);         //ƫ����
+	temp = (int)(angle_yaw*100);         //偏航角
 	data_to_send[cnt++]=BYTE1(temp);
 	data_to_send[cnt++]=BYTE0(temp);
 
-	temp2 = (int32_t)(0);   //�߶� 
+	temp2 = (int32_t)(0);   //高度 
 	data_to_send[cnt++]=BYTE3(temp2);
 	data_to_send[cnt++]=BYTE2(temp2);
 	data_to_send[cnt++]=BYTE1(temp2);
 	data_to_send[cnt++]=BYTE0(temp2);
 
-	data_to_send[cnt++]=0x01;		//����ģʽ    01����̬  02������  03������
-	data_to_send[cnt++]= 0;		//����״̬  0����   1����
+	data_to_send[cnt++]=0x01;		//飞行模式    01：姿态  02：定高  03：定点
+	data_to_send[cnt++]= 0;		//锁定状态  0加锁   1解锁
 
-	data_to_send[3] = cnt-4;		//�����ֽ���
+	data_to_send[3] = cnt-4;		//补充字节数
 	
 	sum = 0;
-	for(i=0;i<cnt;i++)		//����У��λ
+	for(i=0;i<cnt;i++)		//计算校验位
 		sum += data_to_send[i];
 	data_to_send[cnt++]=sum;
 	USART1_DMA_Send(data_to_send,cnt);
@@ -566,5 +566,3 @@ void ANO_DT_Send_PID(u8 group,float p1_p,float p1_i,float p1_d,float p2_p,float 
 
 	USART1_DMA_Send(data_to_send, _cnt);
 }
-
-

@@ -1,6 +1,7 @@
 #ifndef __OLED_H
 #define __OLED_H
 
+#ifdef AXIS_USE_OLED
 void OLED_Init(void);
 void OLED_Clear(void);
 void OLED_ShowChar(uint8_t Line, uint8_t Column, char Char);
@@ -12,5 +13,6 @@ void OLED_ShowBinNum(uint8_t Line, uint8_t Column, uint32_t Number, uint8_t Leng
 void OLED_ShowFloatNum(uint8_t Line, uint8_t Column, double Number, uint8_t IntLength, uint8_t FraLength);
 void OLED_ShowSingleChinese(uint8_t Line, uint8_t Column, char *SingleChinese);
 void OLED_ShowChinese(uint8_t Line, uint8_t Column, char *Chinese);
+#endif
 
 #endif

@@ -1,5 +1,4 @@
 #include "sys.h" // Device header
-#include "iic.h"
 
 TaskHandle_t Task1_Handler;
 TaskHandle_t Task2_Handler;
@@ -12,7 +11,8 @@ SemaphoreHandle_t xBinarySemaphore;
 void Task1(void *pvParameters);
 void Task2(void *pvParameters);
 void Task3(void *pvParameters);
-//MPU6050_st Mpu6050_Data;
+void HardWare_Init(void);
+
 uint16_t count = 0;
 bool SendStatus = 0;
 
@@ -73,8 +73,7 @@ void TIM4_IRQHandler(void)
 	
     if (TIM_GetITStatus(TIM4, TIM_IT_Update) != RESET)
     {
-		BaseType_t xHigherPriorityTaskWoken;
-//        // 清除中断标志位
+		// BaseType_t xHigherPriorityTaskWoken;
         TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
 
 		if(Update_Lock == 0)
@@ -115,15 +114,8 @@ void TIM4_IRQHandler(void)
 //		
 //			taskENTER_CRITICAL_FROM_ISR();
 //		}
-		
-		
-        
+	
     }
-
-
-
-
-
 }
 
 extern RC_TYPE RC;
@@ -135,25 +127,17 @@ void Task1(void *pvParameters)
 	TickType_t xLastWakeTime = xTaskGetTickCount(); // 获取当前的系统时间
 	for (;;)
 	{
-		
-
-		
 	    BATT_GetVoltage();
 		MpuGetData();
 		GetAngle(&MPU6050,&Angle,0.00626f);
 //		FlightPidControl(0.003f);
 //		MotorControl();
-	
 		if(FLYDataRx_OK)
 		{
 			FLYDataRx_OK= 0 ;
 			SendToRemote();
 		}
 		vTaskDelayUntil( &xLastWakeTime, pdMS_TO_TICKS(10)); // 20毫秒后再
-		
-
-		
-
 	}
 }
 
@@ -163,51 +147,20 @@ void Task1(void *pvParameters)
 
 void Task2(void *pvParameters)
 {
-	
 	TickType_t xLastWakeTime = xTaskGetTickCount(); // 获取当前的系统时间
 	
 	for (;;)
 	{
-		
-//		xBinarySemaphore
-		
-		
-		xSemaphoreTake(xBinarySemaphore,portMAX_DELAY);
-//		SendToRemote();
-		char TEXT[50];
-		
-		//pidRateX.kp,pidRateX.ki,pidRateX.kd
-		sprintf(TEXT,"%.2f %.2f %.2f",pidRateX.kp,pidRateX.ki,pidRateX.kd);
-		OLED_ShowString(1,1,TEXT);
-		
-		//pidRateY.kp,pidRateY.ki,pidRateY.kd
-		sprintf(TEXT,"%.2f %.2f %.2f",pidRateY.kp,pidRateY.ki,pidRateY.kd);
-		OLED_ShowString(2,1,TEXT);
-		
-		
-		//pidPitch.kp,pidPitch.ki,pidPitch.kd
-		sprintf(TEXT,"%.2f %.2f %.2f",pidPitch.kp,pidPitch.ki,pidPitch.kd);
-		OLED_ShowString(3,1,TEXT);
-		
-		
-		//pidRoll.kp,pidRoll.ki,pidRoll	.kd
-		sprintf(TEXT,"%.1f %.1f %.1f",pidRoll.kp,pidRoll.ki,pidRoll.kd);
-		OLED_ShowString(4,1,TEXT);
-		vTaskDelayUntil( &xLastWakeTime,  pdMS_TO_TICKS(50) );
-
-			
+		vTaskDelayUntil( &xLastWakeTime,  pdMS_TO_TICKS(50) );	
 	}
 }
 
 
 void Task3(void *pvParameters)
 {
-
-
 	TickType_t xLastWakeTime = xTaskGetTickCount(); // 获取当前的系统时间
 	for (;;)
 	{
-	
 		ANO_DT_Data_Exchange();
 		vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(1)); // 
 	}
@@ -215,7 +168,6 @@ void Task3(void *pvParameters)
 
 static void AppTaskCreate(void)
 {
-	BaseType_t xReturn = pdPASS; /* 定义一个创建信息返回值，默认为pdPASS */
 	taskENTER_CRITICAL(); // 进入临界区
 
 	xReturn = xTaskCreate((TaskFunction_t)Task1,		   /* 任务入口函数 */
@@ -224,73 +176,79 @@ static void AppTaskCreate(void)
 						  (void *)NULL,					   /* 任务入口函数参数 */
 						  (UBaseType_t)3,				   /* 任务的优先级 */
 						  (TaskHandle_t *)&Task1_Handler); /* 任务控制块指针 */
-						  
-						  
-//	xReturn = xTaskCreate((TaskFunction_t)Task2,		   /* 任务入口函数 */
-//					  (const char *)"Task2",		   /* 任务名字 */
-//					  (uint16_t)256,				   /* 任务栈大小 */
-//					  (void *)NULL,					   /* 任务入口函数参数 */
-//					  (UBaseType_t)3,				   /* 任务的优先级 */
-//					  (TaskHandle_t *)&Task2_Handler); /* 任务控制块指针 */				
+	if(pdPASS != xReturn)
+	{
+		return;
+	}
+								  
+	// xReturn = xTaskCreate((TaskFunction_t)Task2,		   /* 任务入口函数 */
+	// 				  (const char *)"Task2",		   /* 任务名字 */
+	// 				  (uint16_t)256,				   /* 任务栈大小 */
+	// 				  (void *)NULL,					   /* 任务入口函数参数 */
+	// 				  (UBaseType_t)3,				   /* 任务的优先级 */
+	// 				  (TaskHandle_t *)&Task2_Handler); /* 任务控制块指针 */		
+	// if(pdPASS != xReturn)
+	// {
+	// 	return;
+	// }
 
 	xReturn = xTaskCreate((TaskFunction_t)Task3,		   /* 任务入口函数 */
 					  (const char *)"Task3",		   /* 任务名字 */
 					  (uint16_t)256,				   /* 任务栈大小 */
 					  (void *)NULL,					   /* 任务入口函数参数 */
 					  (UBaseType_t)3,				   /* 任务的优先级 */
-					  (TaskHandle_t *)&Task3_Handler); /* 任务控制块指针 */									  
-						  
-	
+					  (TaskHandle_t *)&Task3_Handler); /* 任务控制块指针 */	
 
+	if(pdPASS != xReturn)
+	{
+		return;
+	}					
 	vTaskDelete(AppTaskCreate_Handle); // 删除AppTaskCreate任务
 	taskEXIT_CRITICAL();			   // 退出临界区
 }
 
-void ALL_Init(void)
+void HardWare_Init(void)
 {
-	
-	
 	delay_init();
 	NVIC_init();
 	Serial_Init();
 	Led_Init();
 	Battery_Init();
 	USART1_DMA_Init(DMA1_Channel4, (uint32_t)&USART1->DR, (uint32_t *)data_to_send, 50);
-//	TimerInit();
-	OLED_Init();
+	// Timer4_Init();
+	#ifdef AXIS_USE_OLED
+		OLED_Init();
+	#endif
 	IIC_Init();		// 初始化IIC
 	PID_ParamInit();
-	MpuInit();
-	
+	MpuInit();	
 	SI24R1_Config();
 	TIM3_PWM_Init();
-	
-	
+
 }
 
 int main(void)
 {
 
-	ALL_Init();
+	HardWare_Init(); //硬件初始化
 
 	xBinarySemaphore = xSemaphoreCreateBinary();
-	if (xBinarySemaphore == NULL)
+	if (xBinarySemaphore)
 	{
-		// 处理错误，信号量创建失败
-//		printf("Create Fail\r\n");
+			/* 创建AppTaskCreate任务 */
+		xReturn = xTaskCreate((TaskFunction_t)AppTaskCreate,		  /* 任务入口函数 */
+							(const char *)"AppTaskCreate",		  /* 任务名字 */
+							(uint16_t)512,						  /* 任务栈大小 */
+							(void *)NULL,							  /* 任务入口函数参数 */
+							(UBaseType_t)1,						  /* 任务的优先级 */
+							(TaskHandle_t *)&AppTaskCreate_Handle); /* 任务控制块指针 */
+
+		/* 启动任务调度 */
+		if (pdPASS == xReturn)
+		{
+			vTaskStartScheduler(); /* 启动任务，开启调度 */
+		}
+		else
+			return -1;
 	}
-	/* 创建AppTaskCreate任务 */
-	xReturn = xTaskCreate((TaskFunction_t)AppTaskCreate,		  /* 任务入口函数 */
-						  (const char *)"AppTaskCreate",		  /* 任务名字 */
-						  (uint16_t)512,						  /* 任务栈大小 */
-						  (void *)NULL,							  /* 任务入口函数参数 */
-						  (UBaseType_t)1,						  /* 任务的优先级 */
-						  (TaskHandle_t *)&AppTaskCreate_Handle); /* 任务控制块指针 */
-	/* 启动任务调度 */
-	if (pdPASS == xReturn)
-	{
-		vTaskStartScheduler(); /* 启动任务，开启调度 */
-	}
-	else
-		return -1;
 }
