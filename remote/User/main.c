@@ -8,39 +8,31 @@ SemaphoreHandle_t SemapMTX_Handle_t;
 SemaphoreHandle_t SemapMRX_Handle_t;
 SemaphoreHandle_t xBinarySemaphore;
 QueueHandle_t Queue1;
-
-u8g2_t u8g2;
 TimerHandle_t xAutoReloadTimer1;
 TimerHandle_t xAutoReloadTimer2;
+BaseType_t xReturn = pdPASS; /* 定义一个创建信息返回值，默认为pdPASS */
+
 char LeftX[20];
 char RightY[20];
 char RightX[20];
 char LeftY[20];
-
-
+u8g2_t u8g2;
 
 
 extern u8 packetData[12];
 extern uint16_t j;
 extern uint16_t Count_DMA;
-
-
-
 extern KEY Keys[4];
 extern bool Tx_OK;
 extern bool Rx_OK;
 int SendNum=0;
 
-
 void Key_Proc(void)
 {
-	
 	if(Keys[0].Key_Flag_1 == 1)
 	{
-		
 		FLY.Lock=!FLY.Lock;
 		Keys[0].Key_Flag_1 = 0;
-		
 	}
 	
 }
@@ -52,7 +44,7 @@ char OLED_Buf[30];
 /*遥控器发送任务*/
 void Task1(void *pvParameters)
 {
-u8g2Init(&u8g2);
+	u8g2Init(&u8g2);
 	u8g2_SetFont(&u8g2, u8g2_font_6x10_tf); // 字体
 	u8g2_ClearBuffer(&u8g2);
 
@@ -60,7 +52,6 @@ u8g2Init(&u8g2);
 	u8g2_ClearBuffer(&u8g2);
 	while (1)
 	{
-		
 		if(Page == 0)
 		{
 			
@@ -68,17 +59,7 @@ u8g2Init(&u8g2);
 		}else if(Page == 1)
 		{
 			Second_Page();
-			
 		}
-		
-
-
-
-
-	
-	
-	
-
 	}
 }
 
@@ -90,16 +71,11 @@ void Task2(void *pvParameters)
 
 
 	}
-			
-			
-
-
 }
 
 
 static void AppTaskCreate(void)
 {
-	BaseType_t xReturn = pdPASS; /* 定义一个创建信息返回值，默认为pdPASS */
 
 	taskENTER_CRITICAL(); // 进入临界区
 
@@ -109,6 +85,10 @@ static void AppTaskCreate(void)
 						  (void *)NULL,					   /* 任务入口函数参数 */
 						  (UBaseType_t)3,				   /* 任务的优先级 */
 						  (TaskHandle_t *)&Task1_Handler); /* 任务控制块指针 */
+	if(pdPASS != xReturn)
+	{
+		printf("Task1创建失败\r\n");
+	}
 						  
 //	xReturn = xTaskCreate((TaskFunction_t)Task2,		   /* 任务入口函数 */
 //						  (const char *)"Task2",		   /* 任务名字 */
@@ -140,7 +120,6 @@ int main(void)
 {
 	BSP_Init();
 	xBinarySemaphore = xSemaphoreCreateBinary();
-	BaseType_t xReturn = pdPASS; /* 定义一个创建信息返回值，默认为pdPASS */
 
 	/* 创建AppTaskCreate任务 */
 	xReturn = xTaskCreate((TaskFunction_t)AppTaskCreate,		  /* 任务入口函数 */
@@ -152,11 +131,6 @@ int main(void)
 	/* 启动任务调度 */
 	if (pdPASS == xReturn)
 	{
-		
-//		OpenShow();
-		
-	
-		
 		vTaskStartScheduler(); /* 启动任务，开启调度 */
 	}
 	else

@@ -12,15 +12,11 @@
 
 void MySPI_W_CE(uint8_t BitValue) 
 {
-	
 	GPIO_WriteBit(GPIOA,NFR_CE,(BitAction)BitValue);
-	
 }
 void MySPI_W_IRQ(uint8_t BitValue) 
 {
-	
 	GPIO_WriteBit(GPIOB,NFR_IRQ,(BitAction)BitValue);
-	
 }
 
 uint8_t MySPI_R_IRQ(void) 
@@ -28,45 +24,29 @@ uint8_t MySPI_R_IRQ(void)
 	uint8_t BitValue;
 	BitValue=GPIO_ReadInputDataBit(GPIOB,NFR_IRQ);
 	return BitValue;
-
 }
+
 void MySPI_W_CSN(uint8_t BitValue) 
 {
-	
 	GPIO_WriteBit(GPIOB,NFR_CSN,(BitAction)BitValue);
-	
-}
-
-void MySPI_W_MOSI(uint8_t BitValue) 
-{
-	
-	GPIO_WriteBit(GPIOB,MOSI,(BitAction)BitValue);
-	
-}
-
-void MySPI_W_SCK(uint8_t BitValue) 
-{
-	
-	GPIO_WriteBit(GPIOB,SCK,(BitAction)BitValue);
-	
-}
-uint8_t MySPI_R_MISO(void) 
-{
-	uint8_t BitValue;
-	BitValue=GPIO_ReadInputDataBit(GPIOB,MISO);
-	return BitValue;
-
 }
 
 void MySPI_Init(void)
 {
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB| RCC_APB2Periph_AFIO,ENABLE);
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI2,ENABLE);
 	GPIO_InitTypeDef GPIO_InitStruct;
 	EXTI_InitTypeDef EXTI_initStructure;
+	SPI_InitTypeDef SPI_InitStructure;
 
 
 	GPIO_InitStruct.GPIO_Mode=GPIO_Mode_Out_PP;//推挽输出高低电平都具有驱动能力。
-	GPIO_InitStruct.GPIO_Pin=MOSI| SCK | NFR_CSN;
+	GPIO_InitStruct.GPIO_Pin= NFR_CSN;
+	GPIO_InitStruct.GPIO_Speed=GPIO_Speed_50MHz;
+	GPIO_Init(GPIOB,&GPIO_InitStruct);
+
+	GPIO_InitStruct.GPIO_Mode=GPIO_Mode_AF_PP;//硬件spi
+	GPIO_InitStruct.GPIO_Pin=MOSI | SCK;
 	GPIO_InitStruct.GPIO_Speed=GPIO_Speed_50MHz;
 	GPIO_Init(GPIOB,&GPIO_InitStruct);
 	
@@ -81,7 +61,6 @@ void MySPI_Init(void)
 	GPIO_Init(GPIOB,&GPIO_InitStruct);
 	
 
-	
 	GPIO_EXTILineConfig(GPIO_PortSourceGPIOB,GPIO_PinSource2);//开启GPIO管脚的中断线路
 	EXTI_initStructure.EXTI_Line = EXTI_Line2;
 	EXTI_initStructure.EXTI_LineCmd = ENABLE;
@@ -90,7 +69,19 @@ void MySPI_Init(void)
 	EXTI_Init(&EXTI_initStructure);
 	NVIC_EnableIRQ(EXTI2_IRQn);
 
-
+	 // SPI初始化
+    SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
+    SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
+    SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
+    SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
+    SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;
+    SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
+    SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_256; // 根据需要调整
+    SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
+    SPI_InitStructure.SPI_CRCPolynomial = 7;
+    SPI_Init(SPI2, &SPI_InitStructure);
+    // 启用SPI
+    SPI_Cmd(SPI2, ENABLE);
 }
 	
 void MySPI_Start(void)
@@ -102,21 +93,16 @@ void MySPI_Stop(void)
 	MySPI_W_CSN(1);
 }
 
-uint8_t MySPI_SwapByte(uint8_t SendByte)
-{	
-		uint8_t receivedata=0x00,i;
-		for(i=0;i<8;i++)
-		{
-		
-		MySPI_W_MOSI(SendByte & ( 0x80 >> i));
-		MySPI_W_SCK(1);//上升沿移入数据
-		if(MySPI_R_MISO() == 1)
-		{
-			receivedata |= (0x80 >> i);
-		}
-		MySPI_W_SCK(0);//下降沿移出数据
-	}
-		return receivedata;
+
+uint8_t MySPI_SwapByte(uint8_t ByteSend)
+{
+	while (SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_TXE) != SET);	//等待发送数据寄存器空
+	
+	SPI_I2S_SendData(SPI2, ByteSend);								//写入数据到发送数据寄存器，开始产生时序
+	
+	while (SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_RXNE) != SET);	//等待接收数据寄存器非空
+	
+	return SPI_I2S_ReceiveData(SPI2);								//读取接收到的数据并返回
 }
 
 

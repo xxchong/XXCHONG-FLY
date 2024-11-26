@@ -30,14 +30,12 @@ bool TX_OK=0;
 void SI24R1_Config(void)
 {
 	MySPI_Init();
-	MySPI_W_SCK(0);
 	MySPI_W_CSN(1);
 	MySPI_W_CE(0);
 	MySPI_W_IRQ(1);
-
 	MySPI_W_CE(0);	//拉低CE，注意：读/写nRF寄存器均需要将CE拉低，使其进入待机或者掉电模式才可以
 	
-	
+
 	SPI_Write_Byte(WRITE_REG_CMD + SETUP_AW, 0x03);							//配置通信地址的长度，默认值时0x03,即地址长度为5字节
 	SPI_Write_Buf(WRITE_REG_CMD + TX_ADDR, TX_ADDRESS, TX_ADR_WIDTH);    	
 	SPI_Write_Buf(WRITE_REG_CMD + RX_ADDR_P0, RX_ADDRESS, RX_ADR_WIDTH); 	

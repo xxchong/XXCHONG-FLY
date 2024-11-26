@@ -3,19 +3,15 @@
 #include "stm32f10x.h"                  // Device header
 
 
-#define NFR_IRQ GPIO_Pin_5 /*GPIOA*/
+#define NFR_IRQ     GPIO_Pin_5 /*GPIOA*/
 #define MISO 		GPIO_Pin_6 /*GPIOA*/
 #define MOSI 		GPIO_Pin_7 /*GPIOA*/
-#define NFR_CE  GPIO_Pin_8/*GPIOA*/
+#define NFR_CE      GPIO_Pin_8/*GPIOA*/
 #define SCK  		GPIO_Pin_0 /*GPIOB*/
-#define NFR_CSN GPIO_Pin_1/*GPIOB*/
+#define NFR_CSN     GPIO_Pin_1/*GPIOB*/
 
 
-
-
-
-
-uint8_t MySPI_R_IRQ(void) ;
+uint8_t MySPI_R_IRQ(void) ; 
 void MySPI_W_IRQ(uint8_t BitValue) ;
 void MySPI_W_CE(uint8_t BitValue);
 void MySPI_W_CSN(uint8_t BitValue);

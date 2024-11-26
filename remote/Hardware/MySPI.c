@@ -1,41 +1,47 @@
 #include "SYS.h"               
 
+
+//CE
 void MySPI_W_CE(uint8_t BitValue) 
 {
 	GPIO_WriteBit(GPIOA,NFR_CE,(BitAction)BitValue);
 }
+//IRQ
 void MySPI_W_IRQ(uint8_t BitValue) 
 {
 	GPIO_WriteBit(GPIOA,NFR_IRQ,(BitAction)BitValue);
 }
-
+//IRQ读取
 uint8_t MySPI_R_IRQ(void) 
 {
 	uint8_t BitValue;
 	BitValue=GPIO_ReadInputDataBit(GPIOA,NFR_IRQ);
 	return BitValue;
 }
+//片选
 void MySPI_W_CSN(uint8_t BitValue) 
 {
 	GPIO_WriteBit(GPIOB,NFR_CSN,(BitAction)BitValue);
 }
 
-void MySPI_W_MOSI(uint8_t BitValue) 
-{
-	GPIO_WriteBit(GPIOA,MOSI,(BitAction)BitValue);
-}
-
+//SCK
 void MySPI_W_SCK(uint8_t BitValue) 
 {
 	GPIO_WriteBit(GPIOB,SCK,(BitAction)BitValue);
 }
+
+//MOSI
+void MySPI_W_MOSI(uint8_t BitValue) 
+{
+   GPIO_WriteBit(GPIOA,MOSI,(BitAction)BitValue);
+}
+//MISO
 uint8_t MySPI_R_MISO(void) 
 {
-	uint8_t BitValue;
-	BitValue=GPIO_ReadInputDataBit(GPIOA,MISO);
-	return BitValue;
+    return GPIO_ReadInputDataBit(GPIOA,MISO);
 }
 
+//初始化	
 void MySPI_Init(void)
 {
 	
@@ -43,12 +49,13 @@ void MySPI_Init(void)
 	GPIO_InitTypeDef GPIOA_InitStruct;
 	GPIO_InitTypeDef GPIOB_InitStruct;
 	EXTI_InitTypeDef EXTI_initStructure;
+	SPI_InitTypeDef SPI_InitStructure;
 	
 	GPIOA_InitStruct.GPIO_Mode=GPIO_Mode_Out_PP;//推挽输出高低电平都具有驱动能力。
-	GPIOA_InitStruct.GPIO_Pin=MOSI | NFR_CE;
+	GPIOA_InitStruct.GPIO_Pin=  NFR_CE | MOSI;
 	GPIOA_InitStruct.GPIO_Speed=GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA,&GPIOA_InitStruct);
-	
+
 	GPIOA_InitStruct.GPIO_Mode=GPIO_Mode_IPU;//上拉输入 MISO IRQ
 	GPIOA_InitStruct.GPIO_Pin=NFR_IRQ|MISO;
 	GPIOA_InitStruct.GPIO_Speed=GPIO_Speed_50MHz;
@@ -67,16 +74,17 @@ void MySPI_Init(void)
 	EXTI_Init(&EXTI_initStructure);
 	NVIC_EnableIRQ(EXTI9_5_IRQn);
 }
-	
+//开始
 void MySPI_Start(void)
 {
 	MySPI_W_CSN(0);
 }
+//停止
 void MySPI_Stop(void)
 {
 	MySPI_W_CSN(1);
 }
-
+//交换字节
 uint8_t MySPI_SwapByte(uint8_t SendByte)
 {	
 		uint8_t receivedata=0x00,i;

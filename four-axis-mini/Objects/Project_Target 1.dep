@@ -803,7 +803,7 @@ I (.\Hardware\MyI2C.h)(0x6743DBB9)
 I (.\Hardware\OLED.h)(0x674422E6)
 I (.\Hardware\Serial.h)(0x6743DBB9)
 I (.\Hardware\timer.h)(0x67442235)
-I (.\Hardware\MySPI.h)(0x6743DBB9)
+I (.\Hardware\MySPI.h)(0x674542A7)
 I (.\Hardware\si24r1.h)(0x6743DBB9)
 I (.\Hardware\iic.h)(0x6744214F)
 I (.\Mpu6050\mpu6050.h)(0x6743DBB9)
@@ -872,7 +872,7 @@ I (.\Hardware\MyI2C.h)(0x6743DBB9)
 I (.\Hardware\OLED.h)(0x674422E6)
 I (.\Hardware\Serial.h)(0x6743DBB9)
 I (.\Hardware\timer.h)(0x67442235)
-I (.\Hardware\MySPI.h)(0x6743DBB9)
+I (.\Hardware\MySPI.h)(0x674542A7)
 I (.\Hardware\si24r1.h)(0x6743DBB9)
 I (.\Hardware\iic.h)(0x6744214F)
 I (.\Mpu6050\mpu6050.h)(0x6743DBB9)
@@ -941,7 +941,7 @@ I (.\Hardware\MyI2C.h)(0x6743DBB9)
 I (.\Hardware\OLED.h)(0x674422E6)
 I (.\Hardware\Serial.h)(0x6743DBB9)
 I (.\Hardware\timer.h)(0x67442235)
-I (.\Hardware\MySPI.h)(0x6743DBB9)
+I (.\Hardware\MySPI.h)(0x674542A7)
 I (.\Hardware\si24r1.h)(0x6743DBB9)
 I (.\Hardware\iic.h)(0x6744214F)
 I (.\Mpu6050\mpu6050.h)(0x6743DBB9)
@@ -1045,7 +1045,7 @@ I (.\Hardware\MyI2C.h)(0x6743DBB9)
 I (.\Hardware\OLED.h)(0x674422E6)
 I (.\Hardware\Serial.h)(0x6743DBB9)
 I (.\Hardware\timer.h)(0x67442235)
-I (.\Hardware\MySPI.h)(0x6743DBB9)
+I (.\Hardware\MySPI.h)(0x674542A7)
 I (.\Hardware\si24r1.h)(0x6743DBB9)
 I (.\Hardware\iic.h)(0x6744214F)
 I (.\Mpu6050\mpu6050.h)(0x6743DBB9)
@@ -1114,7 +1114,7 @@ I (.\Hardware\MyI2C.h)(0x6743DBB9)
 I (.\Hardware\OLED.h)(0x674422E6)
 I (.\Hardware\Serial.h)(0x6743DBB9)
 I (.\Hardware\timer.h)(0x67442235)
-I (.\Hardware\MySPI.h)(0x6743DBB9)
+I (.\Hardware\MySPI.h)(0x674542A7)
 I (.\Hardware\si24r1.h)(0x6743DBB9)
 I (.\Hardware\iic.h)(0x6744214F)
 I (.\Mpu6050\mpu6050.h)(0x6743DBB9)
@@ -1183,7 +1183,7 @@ I (.\Hardware\MyI2C.h)(0x6743DBB9)
 I (.\Hardware\OLED.h)(0x674422E6)
 I (.\Hardware\Serial.h)(0x6743DBB9)
 I (.\Hardware\timer.h)(0x67442235)
-I (.\Hardware\MySPI.h)(0x6743DBB9)
+I (.\Hardware\MySPI.h)(0x674542A7)
 I (.\Hardware\si24r1.h)(0x6743DBB9)
 I (.\Hardware\iic.h)(0x6744214F)
 I (.\Mpu6050\mpu6050.h)(0x6743DBB9)
@@ -1252,7 +1252,7 @@ I (.\Hardware\MyI2C.h)(0x6743DBB9)
 I (.\Hardware\OLED.h)(0x674422E6)
 I (.\Hardware\Serial.h)(0x6743DBB9)
 I (.\Hardware\timer.h)(0x67442235)
-I (.\Hardware\MySPI.h)(0x6743DBB9)
+I (.\Hardware\MySPI.h)(0x674542A7)
 I (.\Hardware\si24r1.h)(0x6743DBB9)
 I (.\Hardware\iic.h)(0x6744214F)
 I (.\Mpu6050\mpu6050.h)(0x6743DBB9)
@@ -1266,7 +1266,7 @@ I (.\Control\PID.h)(0x67442379)
 I (.\Control\control.h)(0x6743DBB9)
 I (.\Control\REMOTE.h)(0x674423CC)
 F (.\Hardware\PWM.h)(0x674421D8)()
-F (.\Hardware\MySPI.c)(0x6743DBB9)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware -I .\FreeRTOS\Source\include -I .\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I .\Mpu6050 -I .\IMU -I .\ANO_DT -I .\Control --no-multibyte-chars-I.\RTE\_Target_1-ID:\Keil\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-ID:\Keil\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\myspi.o --omf_browse .\objects\myspi.crf --depend .\objects\myspi.d)
+F (.\Hardware\MySPI.c)(0x6745442F)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware -I .\FreeRTOS\Source\include -I .\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I .\Mpu6050 -I .\IMU -I .\ANO_DT -I .\Control --no-multibyte-chars-I.\RTE\_Target_1-ID:\Keil\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-ID:\Keil\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\myspi.o --omf_browse .\objects\myspi.crf --depend .\objects\myspi.d)
 I (.\Start\stm32f10x.h)(0x6743DBB9)
 I (.\Start\core_cm3.h)(0x6743DBB9)
 I (D:\Keil\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -1295,9 +1295,9 @@ I (.\Library\stm32f10x_tim.h)(0x6743DBB9)
 I (.\Library\stm32f10x_usart.h)(0x6743DBB9)
 I (.\Library\stm32f10x_wwdg.h)(0x6743DBB9)
 I (.\Library\misc.h)(0x6743DBB9)
-I (Hardware\MySPI.h)(0x6743DBB9)
-F (.\Hardware\MySPI.h)(0x6743DBB9)()
-F (.\Hardware\si24r1.c)(0x6743DBB9)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware -I .\FreeRTOS\Source\include -I .\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I .\Mpu6050 -I .\IMU -I .\ANO_DT -I .\Control --no-multibyte-chars-I.\RTE\_Target_1-ID:\Keil\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-ID:\Keil\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\si24r1.o --omf_browse .\objects\si24r1.crf --depend .\objects\si24r1.d)
+I (Hardware\MySPI.h)(0x674542A7)
+F (.\Hardware\MySPI.h)(0x674542A7)()
+F (.\Hardware\si24r1.c)(0x67454324)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware -I .\FreeRTOS\Source\include -I .\FreeRTOS\Source\portable\RVDS\ARM_CM3 -I .\Mpu6050 -I .\IMU -I .\ANO_DT -I .\Control --no-multibyte-chars-I.\RTE\_Target_1-ID:\Keil\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-ID:\Keil\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\si24r1.o --omf_browse .\objects\si24r1.crf --depend .\objects\si24r1.d)
 I (.\System\sys.h)(0x6744220B)
 I (.\Start\stm32f10x.h)(0x6743DBB9)
 I (.\Start\core_cm3.h)(0x6743DBB9)
@@ -1352,7 +1352,7 @@ I (.\Hardware\MyI2C.h)(0x6743DBB9)
 I (.\Hardware\OLED.h)(0x674422E6)
 I (.\Hardware\Serial.h)(0x6743DBB9)
 I (.\Hardware\timer.h)(0x67442235)
-I (.\Hardware\MySPI.h)(0x6743DBB9)
+I (.\Hardware\MySPI.h)(0x674542A7)
 I (.\Hardware\si24r1.h)(0x6743DBB9)
 I (.\Hardware\iic.h)(0x6744214F)
 I (.\Mpu6050\mpu6050.h)(0x6743DBB9)
@@ -1421,7 +1421,7 @@ I (.\Hardware\MyI2C.h)(0x6743DBB9)
 I (.\Hardware\OLED.h)(0x674422E6)
 I (.\Hardware\Serial.h)(0x6743DBB9)
 I (.\Hardware\timer.h)(0x67442235)
-I (.\Hardware\MySPI.h)(0x6743DBB9)
+I (.\Hardware\MySPI.h)(0x674542A7)
 I (.\Hardware\si24r1.h)(0x6743DBB9)
 I (.\Hardware\iic.h)(0x6744214F)
 I (.\Mpu6050\mpu6050.h)(0x6743DBB9)
@@ -1639,7 +1639,7 @@ I (.\Hardware\MyI2C.h)(0x6743DBB9)
 I (.\Hardware\OLED.h)(0x674422E6)
 I (.\Hardware\Serial.h)(0x6743DBB9)
 I (.\Hardware\timer.h)(0x67442235)
-I (.\Hardware\MySPI.h)(0x6743DBB9)
+I (.\Hardware\MySPI.h)(0x674542A7)
 I (.\Hardware\si24r1.h)(0x6743DBB9)
 I (.\Hardware\iic.h)(0x6744214F)
 I (.\Mpu6050\mpu6050.h)(0x6743DBB9)
@@ -1715,7 +1715,7 @@ I (.\Hardware\MyI2C.h)(0x6743DBB9)
 I (.\Hardware\OLED.h)(0x674422E6)
 I (.\Hardware\Serial.h)(0x6743DBB9)
 I (.\Hardware\timer.h)(0x67442235)
-I (.\Hardware\MySPI.h)(0x6743DBB9)
+I (.\Hardware\MySPI.h)(0x674542A7)
 I (.\Hardware\si24r1.h)(0x6743DBB9)
 I (.\Hardware\iic.h)(0x6744214F)
 I (.\Mpu6050\mpu6050.h)(0x6743DBB9)
@@ -1783,7 +1783,7 @@ I (.\Hardware\MyI2C.h)(0x6743DBB9)
 I (.\Hardware\OLED.h)(0x674422E6)
 I (.\Hardware\Serial.h)(0x6743DBB9)
 I (.\Hardware\timer.h)(0x67442235)
-I (.\Hardware\MySPI.h)(0x6743DBB9)
+I (.\Hardware\MySPI.h)(0x674542A7)
 I (.\Hardware\si24r1.h)(0x6743DBB9)
 I (.\Hardware\iic.h)(0x6744214F)
 I (.\Mpu6050\mpu6050.h)(0x6743DBB9)
@@ -1852,7 +1852,7 @@ I (.\Hardware\MyI2C.h)(0x6743DBB9)
 I (.\Hardware\OLED.h)(0x674422E6)
 I (.\Hardware\Serial.h)(0x6743DBB9)
 I (.\Hardware\timer.h)(0x67442235)
-I (.\Hardware\MySPI.h)(0x6743DBB9)
+I (.\Hardware\MySPI.h)(0x674542A7)
 I (.\Hardware\si24r1.h)(0x6743DBB9)
 I (.\Hardware\iic.h)(0x6744214F)
 I (.\Mpu6050\mpu6050.h)(0x6743DBB9)
@@ -1921,7 +1921,7 @@ I (.\Hardware\MyI2C.h)(0x6743DBB9)
 I (.\Hardware\OLED.h)(0x674422E6)
 I (.\Hardware\Serial.h)(0x6743DBB9)
 I (.\Hardware\timer.h)(0x67442235)
-I (.\Hardware\MySPI.h)(0x6743DBB9)
+I (.\Hardware\MySPI.h)(0x674542A7)
 I (.\Hardware\si24r1.h)(0x6743DBB9)
 I (.\Hardware\iic.h)(0x6744214F)
 I (.\Mpu6050\mpu6050.h)(0x6743DBB9)
@@ -1990,7 +1990,7 @@ I (.\Hardware\MyI2C.h)(0x6743DBB9)
 I (.\Hardware\OLED.h)(0x674422E6)
 I (.\Hardware\Serial.h)(0x6743DBB9)
 I (.\Hardware\timer.h)(0x67442235)
-I (.\Hardware\MySPI.h)(0x6743DBB9)
+I (.\Hardware\MySPI.h)(0x674542A7)
 I (.\Hardware\si24r1.h)(0x6743DBB9)
 I (.\Hardware\iic.h)(0x6744214F)
 I (.\Mpu6050\mpu6050.h)(0x6743DBB9)

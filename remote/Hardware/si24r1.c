@@ -16,14 +16,12 @@ u8 TxBuf[TX_PLOAD_WIDTH];				  //数据接收缓冲区，数据发送缓冲区
 u8 FLYDataRx_OK = 0;                      //飞机数据接收完成
 u8 FLY_Connect_OK = 0;                    //遥控与飞机已连接
 u8 Reconnection_flag = 0;                 //遥控与飞机已断开需要重连
-
-
-
-
-
-
 bool Rx_OK=0;
 bool Tx_OK=0;
+
+
+
+
 void SI24R1_Config(void)
 {
 	MySPI_Init();
@@ -31,10 +29,7 @@ void SI24R1_Config(void)
 	MySPI_W_CSN(1);
 	MySPI_W_CE(0);
 	MySPI_W_IRQ(1);
-
 	MySPI_W_CE(0);	//拉低CE，注意：读/写nRF寄存器均需要将CE拉低，使其进入待机或者掉电模式才可以
-	
-	
 	SPI_Write_Byte(WRITE_REG_CMD + SETUP_AW, 0x03);							//配置通信地址的长度，默认值时0x03,即地址长度为5字节
 	SPI_Write_Buf(WRITE_REG_CMD + TX_ADDR, TX_ADDRESS, TX_ADR_WIDTH);    	
 	SPI_Write_Buf(WRITE_REG_CMD + RX_ADDR_P0, RX_ADDRESS, RX_ADR_WIDTH); 	
@@ -50,8 +45,6 @@ void SI24R1_Config(void)
 	SPI_Write_Byte(WRITE_REG_CMD+STATUS,0xff); /*清除状态寄存器*/
 	MySPI_W_CE(1);
 	
-
-
 }
 extern int SendNum;
 ////IRQ引脚对应的EXTI中断处理函数
@@ -62,7 +55,6 @@ void EXTI9_5_IRQHandler(void)
     {  
 		MySPI_W_CE(0);									//拉低CE，以便读取SI24R1中STATUS中的数据
 		sta = SPI_Read_Byte(READ_REG_CMD+STATUS);		//读取STATUS中的数据，以便判断是由什么中断源触发的IRQ中断
-		
 
 		if(sta & TX_DS)                              	//数据发送成功，并且收到了应答信号
 		{		
@@ -101,6 +93,8 @@ void EXTI9_5_IRQHandler(void)
 			SPI_Write_Byte(WRITE_REG_CMD+STATUS,MAX_RT);	  //清除MAX_RT中断
 			SPI_Write_Byte(FLUSH_TX,0xff);                    //清空TX_FIFO
 		}
+
+		MySPI_W_CE(1);									
 		EXTI_ClearITPendingBit(EXTI_Line5);
 	}
 }

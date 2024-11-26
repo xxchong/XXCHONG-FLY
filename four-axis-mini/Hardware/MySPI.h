@@ -15,17 +15,14 @@
 #define NFR_CSN 	GPIO_Pin_12/*GPIOB*/
 
 
-uint8_t MySPI_R_IRQ(void) ;
-void MySPI_W_IRQ(uint8_t BitValue) ;
+uint8_t MySPI_R_IRQ(void);
+void MySPI_W_IRQ(uint8_t BitValue);
 void MySPI_W_CE(uint8_t BitValue);
 void MySPI_W_CSN(uint8_t BitValue);
-void MySPI_W_MOSI(uint8_t BitValue);
-void MySPI_W_SCK(uint8_t BitValue);
-uint8_t MySPI_R_MISO(void) ;
 void MySPI_Init(void);
 void MySPI_Start(void);
 void MySPI_Stop(void);
-uint8_t MySPI_SwapByte(uint8_t SendByte);
+uint8_t MySPI_SwapByte(uint8_t ByteSend);
 
 
 
